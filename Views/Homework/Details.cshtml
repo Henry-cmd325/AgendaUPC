@@ -1,0 +1,13 @@
+@model HomeworkResponse
+
+@{
+    ViewData["Title"] = "Detalles tarea";
+}
+
+<div>
+    <h2>@Model.Nombre</h2>
+
+    <p>@Model.Descripcion</p>
+
+    <span>@Model.FechaLimite.Day - @Model.FechaLimite.Month - @Model.FechaLimite.Year</span>
+</div>

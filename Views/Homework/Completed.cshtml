@@ -1,0 +1,37 @@
+@model List<HomeworkResponse>
+
+@{
+    ViewData["Title"] = "Tareas completadas";
+}
+
+@(await Component.InvokeAsync("Menu"))
+
+@if(Model.Count != 0)
+{
+    <table class="tabla-tareas">
+        <tr>
+            <td>Materia</td>
+            <td>Nombre</td>
+            <td>Fecha entrega</td>
+            <td></td>
+        </tr>
+
+    @foreach (var homework in Model)
+    {
+        <tr>
+            <td>@homework.Materia</td>
+            <td>@homework.Nombre</td>
+            <td>@homework.FechaLimite.Day - @homework.FechaLimite.Month - @homework.FechaLimite.Year</td>
+            <td><a asp-action="UncheckHomework" asp-route-id=@homework.IdTarea>Desmarcar como completado</a></td>
+        </tr>
+    }
+
+    </table>
+}
+else
+{
+    <div>
+        <p>Todavia no haz terminado ninguna tarea</p>
+    </div>
+}
+    

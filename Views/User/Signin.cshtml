@@ -1,0 +1,50 @@
+@model SigninOutMoodle;
+
+@{
+    ViewData["Title"] = "Signin";
+}
+
+
+<div class="form-container">
+    <form method="post" asp-action="Signin" id="form-login">
+
+        <h3>Sign in</h3>
+
+        <div class="input-container">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" id="nombre" type="text" placeholder="Introduce tu usuario">
+            <span class="val-error" id="nombre-error"></span>
+        </div>
+
+        <div class="input-container">
+            <label asp-for="Matricula"></label>
+            <input asp-for="Matricula" id="matricula" type="text" placeholder="Introduce tu matricula">
+            <span class="val-error" id="matricula-error"></span>
+        </div>
+
+        <div class="input-container">
+            <label asp-for="Contraseña">Contraseña</label>
+            <input id="password-1" asp-for="Contraseña" type="password" placeholder="Introduce tu contraseña">
+            <span class="val-error" id="password-1-error"></span>
+        </div>
+
+        <div class="input-container">
+            <label>Confirma la contraseña</label>
+            <input id="password-2" type="password" placeholder="Introduce tu contraseña">
+            <span class="val-error" id="password-2-error"></span>
+        </div>
+
+        <a onclick="validateSignin()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Enviar
+        </a>
+        
+
+        <a asp-action="Login">
+            ¿Ya tienes una cuenta?
+        </a>
+    </form>
+</div>

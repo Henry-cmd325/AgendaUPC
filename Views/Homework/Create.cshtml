@@ -1,0 +1,25 @@
+@model List<SubjectResponse>
+
+<form asp-controller="Homework" asp-action="PostHomework" method="post" id="form-create-hw">
+        <input type="text" name="Nombre" id="nombre" placeholder="Introduce el nombre de la tarea">
+        <span class="val-error" id="nombre-error"></span>
+
+        <select name="IdMateria" id="materia">
+            <option>Selecciona una materia</option>
+            @foreach (var materia in Model)
+            {
+                <option value=@materia.IdMateria>@materia.Nombre</option>
+            }
+        </select>
+        <span id="materia-error"></span>
+
+        <textarea id="descripcion" name="Descripcion" maxlength="200">
+            
+        </textarea>
+        <span class="val-error" id="error-descripcion"></span>
+
+        <input type="date" name="FechaLimite" id="fecha-limite">
+        <span class="val-error" id="error-date"></span>
+        
+        <button onclick=validateCreateHomework()>Crear tarea</button>
+</form>

@@ -1,0 +1,177 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 17px;
+}
+
+header{
+    background-color: #D61818;
+    height: 100px;
+}
+
+a{
+    display: block;
+    color : #000;
+    text-decoration: none;
+    background-color: #ebebed;
+    width: fit-content;
+    border: 1px solid #000;
+    padding: 2px;
+}
+
+#nav-header{
+    display: flex;
+    align-items: flex-start;
+    height: 100%;
+    width: 100%;
+}
+
+#ham-btn{
+    color: #ffffff;
+    align-self: stretch;
+    font-size: 4rem;
+    padding-left: 25px;
+    padding-top: 15px;
+}
+
+#nav-header h2{
+    display: block;
+    color: #ffffff;
+    align-self: stretch;
+    text-align: center;
+    width: 100%;
+    font-size: 3.5rem;
+    padding-top: 15px;
+}
+
+.form-container{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#form-login{
+    width: 30vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5%;
+    background-color: #ebebed;
+}
+
+#form-login a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #D61818;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 2px
+}
+
+#form-login a:hover {
+    background: #D61818;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#form-login a span {
+    position: absolute;
+    display: block;
+}
+
+#form-login a span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #D61818);
+    animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+    0% {
+      left: -100%;
+    }
+    50%,100% {
+      left: 100%;
+    }
+}
+
+#form-login a span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, #D61818);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: .25s
+  }
+  
+@keyframes btn-anim2 {
+    0% {
+      top: -100%;
+    }
+    50%,100% {
+      top: 100%;
+    }
+}
+
+#form-login a span:nth-child(3) {
+    bottom: 0;
+    right: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, #D61818);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+    0% {
+      right: -100%;
+    }
+    50%,100% {
+      right: 100%;
+    }
+}
+  
+#form-login a span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, #D61818);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: .75s
+  }
+  
+@keyframes btn-anim4 {
+    0% {
+      bottom: -100%;
+    }
+    50%,100% {
+      bottom: 100%;
+    }
+}
+
+#form-login input[type=submit]{
+    box-shadow: unset;
+    padding: 5px;
+    color: #D61818;
+    background-color: #ebebed;
+    border: 1px solid #ffffff;
+}
+
+.input-container{
+    margin-bottom: 40px;
+}

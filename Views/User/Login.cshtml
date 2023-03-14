@@ -1,0 +1,45 @@
+@model LoginRequest;
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="form-container">
+    <form method="post" asp-action="Login" id="form-login">
+
+        <h3>Login</h3>
+
+        <div class="input-container">
+            <label asp-for="Nombre"></label>
+            <input id="input-name" asp-for="Nombre" type="text" placeholder="Introduce tu usuario">
+            <span id="input-name-error" class="val-error"></span>
+        </div>
+        
+        <div>
+            <label asp-for="Password"></label>
+            <input id="input-password" asp-for="Password" type="password" placeholder="Introduce tu contraseña">
+            <span id="input-password-error" class="val-error"></span>
+        </div>
+
+        @{
+            if (@ViewBag.Message != null)
+            {
+                <div id="div-error">
+                    <p>@ViewBag.Message</p>
+                </div>
+            }
+        }
+        
+        <a onclick="validateLogin()">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Enviar
+        </a>
+
+        <a asp-action="Signin">
+            ¿Aun no tienes una cuenta?
+        </a>
+    </form>
+</div>

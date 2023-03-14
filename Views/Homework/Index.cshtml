@@ -1,0 +1,32 @@
+@model List<HomeworkResponse>
+
+@{
+    ViewData["Title"] = "Tareas por realizar";
+}
+
+@(await Component.InvokeAsync("Menu"))
+
+<a asp-action="Create">Agregar tarea</a>
+
+@if (Model.Count == 0)
+{
+    <div>
+        <p>No tienes ninguna tarea pendiente</p>
+    </div>
+
+    <div>
+        <button asp-action="">Agregar tarea</button>
+    </div>
+}
+
+@foreach (var homework in Model)
+{
+    <div class="homework-card">
+        <p>@homework.Materia</p>
+        <h3>@homework.Nombre</h3>
+        <p>@homework.Descripcion</p>
+        <p>@homework.FechaLimite.Day - @homework.FechaLimite.Month - @homework.FechaLimite.Year</p>
+        <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>Marcar como completada</a>
+        <a asp-action="Details" asp-route-id=@homework.IdTarea>Ver detalles</a>
+    </div>
+}
