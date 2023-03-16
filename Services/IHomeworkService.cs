@@ -10,4 +10,5 @@ public interface IHomeworkService : IService<HomeworkResponse, HomeworkRequest>
     public ServerResponse<HomeworkResponse> CompletarTarea(int idTarea); 
     public ServerResponse<HomeworkResponse> DesmarcarTarea(int idTarea);
     public ServerResponse<HomeworkResponse> Get(int idTarea, int idUsuario);
+    public ServerResponse<HomeworkResponse> Post(int idUsuario, HomeworkRequest request);
 }

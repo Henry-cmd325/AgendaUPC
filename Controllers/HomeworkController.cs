@@ -53,18 +53,18 @@ public class HomeworkController : Controller
     [HttpPost]
     public IActionResult PostHomework(HomeworkRequest request)
     {
-        var response = _service.Post(request);
+        var response = _service.Post(_idUsuario, request);
 
         if (!response.Success)
         {
             TempData["Error"] = response.Error;
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Create");
         }
 
         TempData["Created"] = "La tarea fue creada exitosamente";
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Create");
     }
 
     [Route("Complete/{id:int}")]

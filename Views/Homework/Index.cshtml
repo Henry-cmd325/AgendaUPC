@@ -24,7 +24,6 @@
     <div class="homework-card">
         <p>@homework.Materia</p>
         <h3>@homework.Nombre</h3>
-        <p>@homework.Descripcion</p>
         <p>@homework.FechaLimite.Day - @homework.FechaLimite.Month - @homework.FechaLimite.Year</p>
         <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>Marcar como completada</a>
         <a asp-action="Details" asp-route-id=@homework.IdTarea>Ver detalles</a>

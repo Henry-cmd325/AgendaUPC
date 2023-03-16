@@ -270,6 +270,46 @@ public class HomeworkService : IHomeworkService
         return response;
     }
 
+    public ServerResponse<HomeworkResponse> Post(int idUsuario, HomeworkRequest request)
+    {
+        ServerResponse<HomeworkResponse> response = new();
+
+        var dbMateria = _context.Materias.Where(m => m.IdMateria == request.IdMateria).FirstOrDefault();
+
+        if (dbMateria == null)
+        {
+            response.Success = false;
+            response.Error = "El id materia introducido no corresponde con ningun registro";
+
+            return response;
+        }
+
+        var newHomework = new TareasUnica() 
+        {
+            Nombre = request.Nombre,
+            IdMateria = request.IdMateria,
+            IdUsuario = idUsuario,
+            Descripcion = request.Descripcion,
+            FechaEntrega = request.FechaLimite
+        };
+
+        _context.TareasUnicas.Add(newHomework);
+        _context.SaveChanges(); 
+
+        var homeworkResponse = new HomeworkResponse() 
+        {
+            IdTarea = newHomework.IdUnica,
+            Materia = dbMateria.Nombre,
+            Nombre = newHomework.Nombre,
+            Descripcion = newHomework.Descripcion,
+            FechaLimite = newHomework.FechaEntrega
+        };
+
+        response.Data = homeworkResponse;
+
+        return response;
+    }
+
     public ServerResponse<HomeworkResponse> Put(HomeworkRequest request, int id)
     {
         ServerResponse<HomeworkResponse> response = new();

@@ -124,7 +124,7 @@ public partial class AgendaUpcContext : DbContext
 
             entity.Property(e => e.IdTarea).HasColumnName("id_tarea");
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
+                .HasMaxLength(700)
                 .HasColumnName("descripcion");
             entity.Property(e => e.FechaLimite)
                 .HasColumnType("datetime")
@@ -152,7 +152,7 @@ public partial class AgendaUpcContext : DbContext
 
             entity.Property(e => e.IdUnica).HasColumnName("id_unica");
             entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
+                .HasMaxLength(700)
                 .HasColumnName("descripcion");
             entity.Property(e => e.FechaEntrega)
                 .HasColumnType("datetime")
