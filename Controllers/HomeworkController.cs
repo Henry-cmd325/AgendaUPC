@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using AgendaUpc.Services;
 using AgendaUpc.Models.Requests;
+using AgendaUpc.Models.ViewModels;
+using AgendaUpc.Models.Responses;
 
 namespace AgendaUpc.Controllers;
 
@@ -23,6 +25,12 @@ public class HomeworkController : Controller
     public IActionResult Index()
     {
         return View(_service.GetAll(_idUsuario).Data);
+    }
+
+    [Route("/{id:int}")]
+    public IActionResult Index(int id)
+    {
+        return View(_service.GetAll(_idUsuario, id));
     }
 
     public IActionResult Completed()
@@ -47,7 +55,17 @@ public class HomeworkController : Controller
             return RedirectToAction("Index");
         }
 
-        return View(response.Data);
+        var newDetails = new DetailsHomework()
+        {
+            IdTarea = response.Data!.IdTarea,
+            Materia = response.Data!.Materia,
+            Nombre = response.Data!.Nombre,
+            Descripcion = response.Data!.Descripcion,
+            FechaLimite = response.Data!.FechaLimite,
+            Subjects =  _subjects.GetAll(_idUsuario).Data!
+        };
+
+        return View(newDetails);
     }
 
     [HttpPost]
@@ -65,6 +83,21 @@ public class HomeworkController : Controller
         TempData["Created"] = "La tarea fue creada exitosamente";
 
         return RedirectToAction("Create");
+    }
+
+    [HttpPost]
+    public IActionResult PutHomework(UpdateHomework request)
+    {
+        var response = _service.Put(request);
+
+        if (!response.Success)
+        {
+            TempData["Error"] = response.Error;
+
+            return RedirectToAction("Details/" + request.IdTarea.ToString());
+        }
+
+        return RedirectToAction("Index");
     }
 
     [Route("Complete/{id:int}")]

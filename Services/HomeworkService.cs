@@ -1,6 +1,7 @@
 using AgendaUpc.Context;
 using AgendaUpc.Models.Requests;
 using AgendaUpc.Models.Responses;
+using AgendaUpc.Models.ViewModels;
 
 namespace AgendaUpc.Services;
 
@@ -354,6 +355,84 @@ public class HomeworkService : IHomeworkService
 
         response.Data = homeworkResponse;
         
+        return response;
+    }
+
+    public ServerResponse<HomeworkResponse> Put(UpdateHomework request)
+    {
+        ServerResponse<HomeworkResponse> response = new();
+
+        var dbHomework = _context.TareasUnicas.Where(t => t.IdUnica == request.IdTarea).FirstOrDefault();
+
+        if (dbHomework == null)
+        {
+            response.Success = false;
+            response.Error = "El id tarea introducido no corresponde con ningun registro";
+
+            return response;
+        }
+
+        var dbMateria = _context.Materias.Where(m => m.IdMateria == request.IdMateria).FirstOrDefault();
+
+        if (dbMateria == null)
+        {
+            response.Success = false;
+            response.Error = "El id materia introducido no corresponde con ningun registro";
+
+            return response;
+        }
+
+        dbHomework.Nombre = request.Nombre;
+        dbHomework.IdMateria = request.IdMateria;
+        dbHomework.Descripcion = request.Descripcion;
+        dbHomework.FechaEntrega = request.FechaLimite;
+
+        _context.Entry(dbHomework).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+
+
+        var homeworkResponse = new HomeworkResponse()
+        {
+            IdTarea = dbHomework.IdUnica,
+            Materia = dbMateria.Nombre,
+            Nombre = dbHomework.Nombre,
+            Descripcion = dbHomework.Descripcion,
+            FechaLimite = dbHomework.FechaEntrega
+        };
+
+        response.Data = homeworkResponse;
+        
+        return response;
+    }
+
+    public ServerResponse<List<HomeworkResponse>> GetAll(int idUsuario, int idMateria)
+    {
+        ServerResponse<List<HomeworkResponse>> response = new();
+
+        var dbList = _context.TareasUnicas.Where(t => t.IdUsuario == idUsuario && t.IdMateria == idMateria).ToList();
+
+        var homeworks = new List<HomeworkResponse>();
+
+        foreach(var homework in dbList)
+        {
+            if (homework != null)
+            {
+                var dbMateria = _context.Materias.Where(m => m.IdMateria == homework.IdMateria).FirstOrDefault();
+
+                if (dbMateria != null)
+                {
+                    homeworks.Add(new() 
+                    {
+                        IdTarea = homework.IdUnica,
+                        Materia = dbMateria.Nombre,
+                        Nombre = homework.Nombre,
+                        Descripcion = homework.Descripcion,
+                        FechaLimite = homework.FechaEntrega
+                    });
+                } 
+            }
+        }
+
         return response;
     }
 }

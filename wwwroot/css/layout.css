@@ -175,3 +175,11 @@ a{
 .input-container{
     margin-bottom: 40px;
 }
+
+.hide{
+  display: none;
+}
+
+.unhide{
+  display: block;
+}

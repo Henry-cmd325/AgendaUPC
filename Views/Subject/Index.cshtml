@@ -1,0 +1,37 @@
+@model List<SubjectResponse>
+
+@{
+    ViewData["Title"] = "Materias";
+}
+
+@(await Component.InvokeAsync("Menu"))
+
+<h1>Materias</h1>
+<div id="mat-container">
+    @foreach (var subject in Model)
+    {
+        <div class="mat-card">
+            <p>@subject.Nombre</p>
+            <a>Ver Tareas</a>
+            <a>Editar</a>
+        </div>
+    }
+</div>
+
+<div>
+    <form class="hide">
+        <h2>Editar materia</h2>
+        <input type="text" name="Nombre">
+    </form>
+
+    <button></button>
+</div>
+
+<div>
+    <form class="hide">
+        <h2>Crear materia</h2>
+        <p></p>
+    </form>
+
+    <button></button>
+</div>

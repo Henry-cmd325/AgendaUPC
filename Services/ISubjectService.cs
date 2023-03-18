@@ -8,4 +8,5 @@ public interface ISubjectService : IService<SubjectResponse, SubjectRequest>
 {
     public ServerResponse<SubjectResponse> Post(int idUsuario, SubjectRequest request);
     public ServerResponse<List<SubjectResponse>> GetAll(int idUsuario);
+    public ServerResponse<int> GetIdByName(string nombre);
 }

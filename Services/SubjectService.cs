@@ -89,7 +89,7 @@ public class SubjectService : ISubjectService
                 {
                     response.Data.Add(new() 
                     {
-                        IdMateria = materiaUsuario.IdMateria,
+                        IdMateria = dbMateria.IdMateria,
                         Nombre = dbMateria.Nombre,
                         Grupo = dbMateria.Grupo,
                         Generacion = dbMateria.Generacion
@@ -97,6 +97,25 @@ public class SubjectService : ISubjectService
                 }
             }
         }
+
+        return response;
+    }
+
+    public ServerResponse<int> GetIdByName(string nombre)
+    {
+        ServerResponse<int> response = new();
+
+        var dbSubject = _context.Materias.Where(m => m.Nombre == nombre).FirstOrDefault();
+
+        if (dbSubject == null)
+        {
+            response.Success = false;
+            response.Error = "El nombre introducido no corresponde con ninguna materia registrada";
+
+            return response;
+        }
+
+        response.Data = dbSubject.IdMateria;
 
         return response;
     }
