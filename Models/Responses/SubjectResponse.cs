@@ -8,5 +8,5 @@ public class SubjectResponse
 
     public string? Grupo { get; set; }
 
-    public string? Generacion { get; set; } = null!;
+    public string? Generacion { get; set; }
 }

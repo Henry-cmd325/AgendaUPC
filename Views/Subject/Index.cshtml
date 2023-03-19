@@ -7,31 +7,45 @@
 @(await Component.InvokeAsync("Menu"))
 
 <h1>Materias</h1>
+
+<button onclick=hideFormMatCreate()>Crear nueva materia</button>
+
+@if (Model.Count == 0)
+{
+    <div>
+        <p>Todavia no has creado ninguna materia</p>
+    </div>
+}
 <div id="mat-container">
     @foreach (var subject in Model)
     {
         <div class="mat-card">
             <p>@subject.Nombre</p>
-            <a>Ver Tareas</a>
-            <a>Editar</a>
+            <a asp-controller="Homework" asp-action="Subject" asp-route-id="@subject.IdMateria">Ver Tareas</a>
+            <button onclick=hideFormMatEdit(@subject.IdMateria)>Editar</button>
         </div>
     }
 </div>
 
-<div>
-    <form class="hide">
+<div class="hide" id="edit-container">
+    <form id="fm-edit-mat" asp-action="EditSubject" method="Post">
         <h2>Editar materia</h2>
-        <input type="text" name="Nombre">
+        <input id="id-edit" type="hidden" name="IdMateria">
+        <input id="edit-name" type="text" name="Nombre">
+        <span id="edit-error"></span>
     </form>
 
-    <button></button>
+    <button onclick=hideFormMatEdit()>Cancelar</button>
+    <button onclick=subjectEdit()>Guardar</button>
 </div>
 
-<div>
-    <form class="hide">
+<div class="hide" id="create-container">
+    <form id="fm-create-mat" asp-action="CreateSubject" method="Post">
         <h2>Crear materia</h2>
-        <p></p>
+        <input id="create-name" type="text" name="Nombre">
+        <span id="create-error"></span>
     </form>
 
-    <button></button>
+    <button onclick=hideFormMatCreate()>Cancelar</button>
+    <button onclick=subjectCreate()>Guardar</button>
 </div>

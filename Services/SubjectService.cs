@@ -81,20 +81,18 @@ public class SubjectService : ISubjectService
 
         foreach(var materiaUsuario in dbMateriasUsuarios)
         {
-            if (materiaUsuario != null)
-            {
-                var dbMateria = _context.Materias.Where(m => m.IdMateria == materiaUsuario.IdMateria).FirstOrDefault();
+            Console.WriteLine("HOla");
+            var dbMateria = _context.Materias.Where(m => m.IdMateria == materiaUsuario.IdMateria).FirstOrDefault();
 
-                if (dbMateria != null && materiaUsuario != null)
+            if (dbMateria != null && materiaUsuario != null)
+            {
+                response.Data.Add(new() 
                 {
-                    response.Data.Add(new() 
-                    {
-                        IdMateria = dbMateria.IdMateria,
-                        Nombre = dbMateria.Nombre,
-                        Grupo = dbMateria.Grupo,
-                        Generacion = dbMateria.Generacion
-                    });
-                }
+                    IdMateria = dbMateria.IdMateria,
+                    Nombre = dbMateria.Nombre,
+                    Grupo = dbMateria.Grupo,
+                    Generacion = dbMateria.Generacion
+                });
             }
         }
 
@@ -173,6 +171,38 @@ public class SubjectService : ISubjectService
             return response;
         }
 
+        dbSubject.Nombre = request.Nombre;
+
+        _context.Entry(dbSubject).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+
+        response.Data = new()
+        {
+            IdMateria = dbSubject.IdMateria,
+            Nombre = dbSubject.Nombre,
+            Generacion = dbSubject.Generacion,
+            Grupo = dbSubject.Grupo
+        };
+
+        return response;
+    }
+
+    public ServerResponse<SubjectResponse> Put(SubjectResponse request)
+    {
+        ServerResponse<SubjectResponse> response = new();
+
+        var dbSubject = _context.Materias.Where(m => m.IdMateria == request.IdMateria).FirstOrDefault();
+
+        if (dbSubject == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido no correspondía con ninguna materia";
+
+            return response;
+        }
+
+        dbSubject.Nombre = request.Nombre;
+        
         _context.Entry(dbSubject).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         _context.SaveChanges();
 

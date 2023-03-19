@@ -433,6 +433,8 @@ public class HomeworkService : IHomeworkService
             }
         }
 
+        response.Data = homeworks;
+
         return response;
     }
 }

@@ -12,25 +12,32 @@ public class HomeworkController : Controller
 {
     private readonly IHomeworkService _service;
     private readonly ISubjectService _subjects;
-    private readonly IHttpContextAccessor _accessor;
     private readonly int _idUsuario;
 
     public HomeworkController(IHomeworkService service, IHttpContextAccessor accessor, ISubjectService subjects)
     {
         _service = service;
-        _accessor = accessor;
-        _idUsuario = Convert.ToInt32(_accessor.HttpContext!.Session.GetInt32("idUser"));
+        _idUsuario = Convert.ToInt32(accessor.HttpContext!.Session.GetInt32("idUser"));
         _subjects = subjects;
     }
-    public IActionResult Index()
-    {
-        return View(_service.GetAll(_idUsuario).Data);
-    }
-
-    [Route("/{id:int}")]
     public IActionResult Index(int id)
     {
-        return View(_service.GetAll(_idUsuario, id));
+        return View("Views/Homework/Index.cshtml", _service.GetAll(_idUsuario).Data);
+    }
+
+    [Route("Subject/{id:int}")]
+    public IActionResult Subject(int id)
+    {
+        Console.WriteLine("El id introducido es: " + id);
+
+        var response = _service.GetAll(_idUsuario, id);
+
+        if (!response.Success)
+        {
+            Console.WriteLine(response.Error);
+        }
+
+        return View("Views/Homework/Index.cshtml", _service.GetAll(_idUsuario, id).Data);
     }
 
     public IActionResult Completed()

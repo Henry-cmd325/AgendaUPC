@@ -170,3 +170,72 @@ const hideInputs = () => {
         etiqueta.classList.add("hide");
     }
 };
+
+const hideFormMatEdit = (id) => {
+    let $container = document.getElementById("edit-container");
+
+    if ($container.classList.contains("hide")){
+        $container.classList.remove("hide");
+        $container.classList.add("unhide");
+    }
+    else{
+        $container.classList.remove("unhide");
+        $container.classList.add("hide");
+    }
+
+    document.getElementById("id-edit").value = id;
+};
+
+const hideFormMatCreate = () => {
+    let $container = document.getElementById("create-container");
+
+    if ($container.classList.contains("hide")){
+        $container.classList.remove("hide");
+        $container.classList.add("unhide");
+    }
+    else{
+        $container.classList.remove("unhide");
+        $container.classList.add("hide");
+    }
+};
+
+const subjectCreate = () => {
+    let isValid = true;
+    let $form = document.getElementById("fm-create-mat");
+    let $input = document.getElementById("create-name");
+    let $span = document.getElementById("create-error");
+
+    if ($input.value === ""){
+        $span.innerText = "Debe de rellenar el campo nombre";
+        isValid = false;
+    }
+
+    setTimeout(() => {
+        $span.innerText = "";
+    }, 5000);
+
+    if (isValid){
+        $form.submit();
+    }
+};
+
+const subjectEdit = () => {
+    let isValid = true;
+    let $form = document.getElementById("fm-edit-mat");
+    let $input = document.getElementById("edit-name");
+    let $span = document.getElementById("edit-error");
+
+
+    if ($input.value === ""){
+        $span.innerText = "Debe de rellenar el campo nombre";
+        isValid = false;
+    }
+
+    setTimeout(() => {
+        $span.innerText = "";
+    }, 5000);
+
+    if (isValid){
+        $form.submit();
+    }
+};
