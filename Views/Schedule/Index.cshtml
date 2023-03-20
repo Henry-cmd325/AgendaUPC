@@ -21,7 +21,7 @@
         <th>Domingo</th>
     </thead>
     <tbody>
-        @for (int i = 4; i < 22; i++)
+        @for (int i = 5; i < 21; i++)
         {
             int horaLimite = i + 1;
 
@@ -52,7 +52,16 @@
     <form id="form-edit-schedule" asp-action="UpdateSchedule" method="Post">
         <input name="IdSchedule" type="hidden" id="id-edit">
         <select name="IdMateria" id="edit-name">
-            <option value="0">Selecciona una materia</option>
+            <option value="0">
+                @if (Model.Subjects.Count == 0)
+                {
+                    <p>No existe ninguna materia</p>
+                }
+                else
+                {
+                    <p>Seleccione una materia</p>
+                }
+            </option>
             @foreach (var subject in Model.Subjects)
             {
                 <option value="@subject.IdMateria">@subject.Nombre</option>

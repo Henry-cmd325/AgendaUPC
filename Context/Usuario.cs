@@ -15,6 +15,8 @@ public partial class Usuario
 
     public string? ContraUpdc { get; set; }
 
+    public virtual ICollection<HorarioMateria> HorarioMateria { get; } = new List<HorarioMateria>();
+
     public virtual ICollection<MateriasUsuario> MateriasUsuarios { get; } = new List<MateriasUsuario>();
 
     public virtual ICollection<TareasUnica> TareasUnicas { get; } = new List<TareasUnica>();

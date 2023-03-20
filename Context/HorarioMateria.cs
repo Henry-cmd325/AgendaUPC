@@ -13,7 +13,11 @@ public partial class HorarioMateria
 
     public TimeOnly Hora { get; set; }
 
+    public int IdUsuario { get; set; }
+
     public virtual Dia IdDiaNavigation { get; set; } = null!;
 
     public virtual Materia? IdMateriaNavigation { get; set; }
+
+    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }

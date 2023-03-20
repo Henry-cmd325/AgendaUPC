@@ -205,6 +205,23 @@ public class UserService : IUserService
         _context.Usuarios.Add(newUser);
         _context.SaveChanges();
 
+        //Creación de horario
+        for (int i = 1; i <= 7; i++)
+        {
+            for (int j = 4; j <= 22; j++)
+            {
+                _context.HorarioMaterias.Add(new()
+                {
+                    IdUsuario = newUser.IdUsuario,
+                    IdDia = i,
+                    Hora = new TimeOnly(j, 0, 0)
+                });
+
+                _context.SaveChanges();
+            }
+        }
+
+
         response.Data = new()
         {
             IdUsuario = newUser.IdUsuario,
