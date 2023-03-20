@@ -1,4 +1,9 @@
-﻿const validateSignin = () => {
+﻿document.getElementById("ham-btn").addEventListener("click", () => {
+    
+});
+
+
+const validateSignin = () => {
     let isValid = true;
     let $form = document.getElementById("form-login");
 
@@ -239,3 +244,31 @@ const subjectEdit = () => {
         $form.submit();
     }
 };
+
+const showFormUpdateSchedule = (id) => {
+    document.getElementById("id-edit").value = id;
+    document.getElementById("id-delete").value = id;
+    document.getElementById("form-schedule-container").classList.remove("hide");
+};
+
+const hideFormUpdateSchedule = () => {
+    document.getElementById("form-schedule-container").classList.add("hide");
+};
+
+const validateUpdateSchedule = () => {
+    let isValid = true;
+    let $form = document.getElementById("form-edit-schedule");
+
+    if (document.getElementById("id-edit").value === ""){
+        isValid = false;
+    }
+
+    if (document.getElementById("edit-name").value === "0"){
+        isValid = false;
+        document.getElementById("edit-name-error").value = "Debes de seleccionar una materia";
+    }
+
+    if (isValid) $form.submit();
+};
+
+const deleteSchedule = () => document.getElementById("form-schedule-delete").submit();

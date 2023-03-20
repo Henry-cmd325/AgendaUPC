@@ -81,7 +81,6 @@ public class SubjectService : ISubjectService
 
         foreach(var materiaUsuario in dbMateriasUsuarios)
         {
-            Console.WriteLine("HOla");
             var dbMateria = _context.Materias.Where(m => m.IdMateria == materiaUsuario.IdMateria).FirstOrDefault();
 
             if (dbMateria != null && materiaUsuario != null)

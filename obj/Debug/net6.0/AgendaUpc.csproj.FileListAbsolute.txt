@@ -2,11 +2,6 @@
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/appsettings.json
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.staticwebassets.runtime.json
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc
-/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.deps.json
-/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.runtimeconfig.json
-/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.dll
-/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/ref/AgendaUpc.dll
-/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.pdb
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/Humanizer.dll
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
@@ -52,4 +47,9 @@
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/obj/Debug/net6.0/AgendaUpc.dll
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/obj/Debug/net6.0/ref/AgendaUpc.dll
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/obj/Debug/net6.0/AgendaUpc.pdb
+/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.deps.json
+/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.runtimeconfig.json
+/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.dll
+/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/ref/AgendaUpc.dll
+/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/bin/Debug/net6.0/AgendaUpc.pdb
 /home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/obj/Debug/net6.0/AgendaUpc.genruntimeconfig.cache

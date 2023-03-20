@@ -9,11 +9,11 @@ public partial class HorarioMateria
 
     public int IdDia { get; set; }
 
-    public int IdMateria { get; set; }
+    public int? IdMateria { get; set; }
 
     public TimeOnly Hora { get; set; }
 
     public virtual Dia IdDiaNavigation { get; set; } = null!;
 
-    public virtual Materia IdMateriaNavigation { get; set; } = null!;
+    public virtual Materia? IdMateriaNavigation { get; set; }
 }

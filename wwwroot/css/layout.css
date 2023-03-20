@@ -183,3 +183,18 @@ a{
 .unhide{
   display: block;
 }
+
+table{
+  table-layout: fixed;
+  width: 80%;
+  margin: auto;
+  border-collapse: collapse;
+  border: solid 1px black;
+}
+
+.schedule-container{
+  width: auto;
+  height: 50px;
+  background-color: azure;
+  border: 1px solid black;
+}

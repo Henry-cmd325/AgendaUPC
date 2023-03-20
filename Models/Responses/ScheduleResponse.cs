@@ -1,4 +1,4 @@
-namespace AgendaUpc.Responses;
+namespace AgendaUpc.Models.Responses;
 
 public class ScheduleResponse
 {

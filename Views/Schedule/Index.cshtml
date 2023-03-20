@@ -1,7 +1,69 @@
+@model ScheduleIndex
+
 @{
     ViewData["Title"] = "Administración de horario";
+
+    string[] dias = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado", "Domingo"};
 }
 
 @(await Component.InvokeAsync("Menu"))
 
 <h1>Horarios</h1>
+<table>
+    <thead>
+        <th>Hora</th>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miércoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+        <th>Sabado</th>
+        <th>Domingo</th>
+    </thead>
+    <tbody>
+        @for (int i = 4; i < 22; i++)
+        {
+            int horaLimite = i + 1;
+
+            <tr>
+                <th>
+                    @i:00 - @horaLimite:00
+                </th>
+            @for (int j = 0; j < 7; j++)
+            {
+                var schedule = Model.Schedules.Where(m => m.Hora.Hour == i && m.Dia == dias[j]).FirstOrDefault();
+
+                <td>
+                    @if (schedule != null)
+                    {
+                        <div class="schedule-container" onclick=showFormUpdateSchedule(@schedule.IdSchedule)>
+                            <p>
+                                @schedule.Materia
+                            </p>
+                        </div>
+                    } 
+                </td>
+            }
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="form-schedule-container" class="hide">
+    <form id="form-edit-schedule" asp-action="UpdateSchedule" method="Post">
+        <input name="IdSchedule" type="hidden" id="id-edit">
+        <select name="IdMateria" id="edit-name">
+            <option value="0">Selecciona una materia</option>
+            @foreach (var subject in Model.Subjects)
+            {
+                <option value="@subject.IdMateria">@subject.Nombre</option>
+            }
+        </select>
+        <span id="edit-name-error"></span>
+    </form>
+    <form id="form-schedule-delete" class="hide" asp-action="DeleteSchedule" method="Post">
+        <input name="Id" type="hidden" id="id-delete">
+    </form>
+    <button onclick=hideFormUpdateSchedule()>Cancelar</button>
+    <button onclick=deleteSchedule()>Eliminar</button>
+    <button onclick=validateUpdateSchedule()>Enviar</button>
+</div>

@@ -28,15 +28,6 @@ public class HomeworkController : Controller
     [Route("Subject/{id:int}")]
     public IActionResult Subject(int id)
     {
-        Console.WriteLine("El id introducido es: " + id);
-
-        var response = _service.GetAll(_idUsuario, id);
-
-        if (!response.Success)
-        {
-            Console.WriteLine(response.Error);
-        }
-
         return View("Views/Homework/Index.cshtml", _service.GetAll(_idUsuario, id).Data);
     }
 

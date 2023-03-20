@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1txfc+VN4j9dntxippe1DhdHBQIi2BkBIurAaZVByKc=",
+  "Hash": "Qcj2cfXKUGLnuv/iiFS1cqgp8zRoyNuB2eciK0lb0dk=",
   "Source": "AgendaUpc",
   "BasePath": "_content/AgendaUpc",
   "Mode": "Default",
@@ -68,12 +68,12 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
-      "Identity": "/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/wwwroot/js/app.js",
+      "Identity": "/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/wwwroot/img/hambtn.svg",
       "SourceId": "AgendaUpc",
       "SourceType": "Discovered",
       "ContentRoot": "/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/wwwroot/",
       "BasePath": "_content/AgendaUpc",
-      "RelativePath": "js/app.js",
+      "RelativePath": "img/hambtn.svg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -82,7 +82,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/js/app.js"
+      "OriginalItemSpec": "wwwroot/img/hambtn.svg"
     },
     {
       "Identity": "/home/henry/Documentos/Programación/AgendaUPC/AgendaUpc/wwwroot/js/site.js",

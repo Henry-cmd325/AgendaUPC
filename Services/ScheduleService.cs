@@ -1,7 +1,7 @@
 using AgendaUpc.Context;
 using AgendaUpc.Models.Responses;
 using AgendaUpc.Models.Requests;
-using AgendaUpc.Responses;
+using AgendaUpc.Models.ViewModels;
 
 namespace AgendaUpc.Services;
 
@@ -11,6 +11,28 @@ public class ScheduleService : IScheduleService
     public ScheduleService(AgendaUpcContext context)
     {
         _context = context;
+    }
+
+    public ServerResponse<ScheduleResponse> DeleteNameSchedule(DeleteRequest request)
+    {
+        ServerResponse<ScheduleResponse> response = new();
+
+        var dbSchedule = _context.HorarioMaterias.Where(h => h.IdHorariosMaterias == request.Id).FirstOrDefault();
+
+        if (dbSchedule == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido no corresponde con ningun registro";
+
+            return response;
+        }
+
+        dbSchedule.IdMateria = null;
+
+        _context.Entry(dbSchedule).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+
+        return response;
     }
 
     public bool DeleteSchedule(int id)
@@ -29,7 +51,7 @@ public class ScheduleService : IScheduleService
     {
         ServerResponse<List<ScheduleResponse>> response = new();
 
-        var dbUsuario = _context.Usuarios.Where(u => u.IdUsuario == idUsuario);
+        var dbUsuario = _context.Usuarios.Where(u => u.IdUsuario == idUsuario).FirstOrDefault();
 
         if (dbUsuario == null)
         {
@@ -44,24 +66,17 @@ public class ScheduleService : IScheduleService
 
         foreach(var schedule in listSchedules)
         {
-            if (schedule != null)
+            var dbDia = _context.Dias.Where(d => d.IdDia == schedule.IdDia).FirstOrDefault();
+            var dbMateria = _context.Materias.Where(m => m.IdMateria == schedule.IdMateria).FirstOrDefault();
+
+            response.Data.Add(new() 
             {
-                var dbDia = _context.Dias.Where(d => d.IdDia == schedule.IdDia).FirstOrDefault();
-                var dbMateria = _context.Materias.Where(m => m.IdMateria == schedule.IdMateria).FirstOrDefault();
-
-                if (dbDia != null && dbMateria != null)
-                {
-                    response.Data.Add(new() 
-                    {
-                        IdSchedule = schedule.IdHorariosMaterias,
-                        Dia = dbDia.Nombre,
-                        Materia = dbMateria.Nombre,
-                        Hora = schedule.Hora
-                    });
-                }
-            }  
+                IdSchedule = schedule.IdHorariosMaterias,
+                Dia = dbDia!.Nombre,
+                Materia = dbMateria == null? " ": dbMateria.Nombre,
+                Hora = schedule.Hora
+            });
         }
-
         return response;
     }
 
@@ -176,9 +191,101 @@ public class ScheduleService : IScheduleService
             Materia = _context.Materias.Where(m => m.IdMateria == dbSchedule.IdMateria).FirstOrDefault()!.Nombre,
             Hora = dbSchedule.Hora
         };
+       
+        return response;
+    }
 
-        
-        
+    public ServerResponse<ScheduleResponse> UpdateSchedule(ScheduleResponse request)
+    {
+        ServerResponse<ScheduleResponse> response = new();
+
+        var dbSchedule = _context.HorarioMaterias.Where(h => h.IdHorariosMaterias == request.IdSchedule).FirstOrDefault();
+
+        if (dbSchedule == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido no corresonde con ningun registro";
+
+            return response;
+        }
+
+        var dbDia = _context.Dias.Where(d => d.Nombre == request.Dia).FirstOrDefault();
+
+        if (dbDia == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido para el dia no corresponde con ningun registro";
+
+            return response;
+        }
+
+        var dbMateria = _context.Materias.Where(m => m.Nombre == request.Materia).FirstOrDefault();
+
+        if (dbMateria == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducio para la materia no corresponde con ningun registro";
+
+            return response;
+        }
+
+        dbSchedule.IdDia = dbDia.IdDia;
+        dbSchedule.IdMateria = dbMateria.IdMateria;
+        dbSchedule.Hora = request.Hora;
+
+        _context.Entry(dbSchedule).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+
+        response.Data = new()
+        {
+            IdSchedule = dbSchedule.IdHorariosMaterias,
+            Dia = dbDia.Nombre,
+            Materia = dbMateria.Nombre,
+            Hora = dbSchedule.Hora
+        };
+       
+        return response;
+    }
+
+    public ServerResponse<ScheduleResponse> UpdateSchedule(UpdateSchedule request)
+    {
+        ServerResponse<ScheduleResponse> response = new();
+
+        var dbSchedule = _context.HorarioMaterias.Where(h => h.IdHorariosMaterias == request.IdSchedule).FirstOrDefault();
+
+        if (dbSchedule == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido no corresonde con ningun registro";
+
+            return response;
+        }
+
+        dbSchedule.IdMateria = request.IdMateria;
+
+        _context.Entry(dbSchedule).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+
+        var dbDia = _context.Dias.Where(d => d.IdDia == dbSchedule.IdDia).FirstOrDefault();
+
+        if (dbDia == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido para el dia no corresponde con ningun registro";
+
+            return response;
+        }
+
+        var dbMateria = _context.Materias.Where(m => m.IdMateria == request.IdMateria).FirstOrDefault();
+
+        response.Data = new()
+        {
+            IdSchedule = dbSchedule.IdHorariosMaterias,
+            Dia = dbDia.Nombre,
+            Materia = dbMateria == null? "": dbMateria.Nombre,
+            Hora = dbSchedule.Hora
+        };
+       
         return response;
     }
 }

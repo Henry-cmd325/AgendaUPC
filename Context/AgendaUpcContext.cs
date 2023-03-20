@@ -30,7 +30,6 @@ public partial class AgendaUpcContext : DbContext
     public virtual DbSet<TareasUsuario> TareasUsuarios { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -71,7 +70,6 @@ public partial class AgendaUpcContext : DbContext
 
             entity.HasOne(d => d.IdMateriaNavigation).WithMany(p => p.HorarioMateria)
                 .HasForeignKey(d => d.IdMateria)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_horariomaterias_materias");
         });
 
