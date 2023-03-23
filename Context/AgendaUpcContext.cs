@@ -30,6 +30,11 @@ public partial class AgendaUpcContext : DbContext
     public virtual DbSet<TareasUsuario> TareasUsuarios { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;database=AgendaUPC;uid=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql"));
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -52,6 +57,8 @@ public partial class AgendaUpcContext : DbContext
 
             entity.ToTable("Horario_materias");
 
+            entity.HasIndex(e => e.IdUsuario, "fk_HorariosMaterias_Usuarios");
+
             entity.HasIndex(e => e.IdDia, "fk_horariomaterias_dias");
 
             entity.HasIndex(e => e.IdMateria, "fk_horariomaterias_materias");
@@ -62,6 +69,7 @@ public partial class AgendaUpcContext : DbContext
                 .HasColumnName("hora");
             entity.Property(e => e.IdDia).HasColumnName("id_dia");
             entity.Property(e => e.IdMateria).HasColumnName("id_materia");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
 
             entity.HasOne(d => d.IdDiaNavigation).WithMany(p => p.HorarioMateria)
                 .HasForeignKey(d => d.IdDia)
@@ -71,6 +79,11 @@ public partial class AgendaUpcContext : DbContext
             entity.HasOne(d => d.IdMateriaNavigation).WithMany(p => p.HorarioMateria)
                 .HasForeignKey(d => d.IdMateria)
                 .HasConstraintName("fk_horariomaterias_materias");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.HorarioMateria)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_HorariosMaterias_Usuarios");
         });
 
         modelBuilder.Entity<Materia>(entity =>
