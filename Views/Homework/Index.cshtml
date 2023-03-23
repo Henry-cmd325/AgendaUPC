@@ -1,30 +1,114 @@
-@model List<HomeworkResponse>
+@model DetailsHomework
 
 @{
     ViewData["Title"] = "Tareas por realizar";
 }
-
+<link rel="stylesheet" href="~/css/Card.css">
 @(await Component.InvokeAsync("Menu"))
 
-<a asp-action="Create">Agregar tarea</a>
-
-@if (Model.Count == 0)
-{
-    <div>
-        <p>No tienes ninguna tarea pendiente</p>
+<div class="main-contenedor">
+    <div class="content-agregarTarea">
+        <a asp-action="Create" class="agregar-tarea">Agregar tarea</a>
     </div>
-}
-
-@foreach (var homework in Model)
-{
-    string day = homework.FechaLimite.Day < 10? "0" + homework.FechaLimite.Day: homework.FechaLimite.Day.ToString();
-    string month = homework.FechaLimite.Month < 10? "0" + homework.FechaLimite.Month: homework.FechaLimite.Month.ToString();
     
-    <div class="homework-card">
-        <p>@homework.Materia</p>
-        <h3>@homework.Nombre</h3>
-        <p>@day - @month - @homework.FechaLimite.Year</p>
-        <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>Marcar como completada</a>
-        <a asp-action="Details" asp-route-id=@homework.IdTarea>Ver detalles</a>
+    @if (Model.Homework.Count == 0)
+    {
+        <div class="no-tarea">
+            <p>No tienes ninguna tarea pendiente</p>
+        </div>
+    }
+    <div class="card-container">
+        
+        @foreach (var homework in Model.Homework)
+        {
+            string day = homework.FechaLimite.Day < 10 ? "0" + homework.FechaLimite.Day : homework.FechaLimite.Day.ToString();
+            string month = homework.FechaLimite.Month < 10 ? "0" + homework.FechaLimite.Month : homework.FechaLimite.Month.ToString();
+
+
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title">@homework.Nombre </h1>
+                    <h2 class="card-title2">@homework.Materia</h2>
+                    <h3 class="card-subtitle">Fecha límite: @day/@month/@homework.FechaLimite.Year</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Descripción de la tarea. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris euismod turpis vel enim pellentesque, non malesuada quam dignissim. Curabitur ultrices, mi eu rutrum luctus, sem est dictum lacus, in laoreet urna metus et lorem.</p>
+                    <a class="card-link" id="ver-mas">Ver más</a>
+                </div>
+                <div class="card-footer">
+                    <div class="checkbox-container">
+                        <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea class="card-link mark-completed">
+                            Marcar como entregado
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        }
     </div>
-}
+
+    <div id="contenedor-principal">
+        <div id="contenedor-difuminado" class="oculto"></div>
+        <div id="contenedor-tareas" class="oculto">
+
+            @if (TempData["Error"] != null)
+            {
+                <h2>@TempData["Error"]</h2>
+            }
+            <form id="form-create-hw" asp-action="PutHomework" method="Post">
+                <h2 id="nombre" class="unhide">Investigar</h2>
+                <input type="hidden" name="IdTarea">
+                <input class="hide"
+                       name=Nombre
+                       type="text"
+                       id="input-nombre"
+                       placeholder="Editar nombre">
+                <span class="val-error" id="nombre-error"></span>
+
+                <p id="materia" class="unhide">Matematicas pa ingenieria II</p>
+                <select id="materia-select" name="IdMateria" class="hide">
+                    <option value="0">Seleccione una materia</option>
+                    @foreach (var subject in Model.Subjects)
+                    {
+
+                        <option value="@subject.IdMateria">
+                            @subject.Nombre
+                        </option>
+
+                    }
+                </select>
+                <span class="val-error" id="materia-error"></span>
+
+                <p id="descripcion" class="unhide">lspfjskpfipfhkpsfskfhwfhiewfhwkhwkhwipvhewuovdwhvgidvhewjvbhcgewibdhcgouewhewhviewhjdbvhdgviewhfbdvhdcgd </p>
+                <textarea id="input-tarea"
+                          class="hide"
+                          name="Descripcion"
+                          maxlength="700"
+                          placeholder="Editar descripcion">
+        </textarea>
+                <span class="val-error" id="error-descripcion"></span>
+
+                <span id="text-fecha-limite" class="unhide">10/03/2003</span>
+                <input id="fecha-limite"
+                       type="date"
+                       class="hide"
+                       value=""
+                       name="FechaLimite">
+                <span class="val-error" id="error-date"></span>
+            </form>
+
+            <button id="btn-edit" class="unhide" onclick=hideInputs()>Editar</button>
+            <button id="btn-cancell" class="hide" onclick=hideInputs()>Cancelar</button>
+            <button id="btn-update" class="hide" onclick=validateCreateHomework()>Enviar</button>
+
+        </div>
+    </div>
+
+
+
+
+    <script type="text/javascript" src="~/js/oculto.js"></script>
+</div>

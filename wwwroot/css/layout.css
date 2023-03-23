@@ -1,24 +1,4 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    font-size: 17px;
-}
 
-header{
-    background-color: #D61818;
-    height: 100px;
-}
-
-a{
-    display: block;
-    color : #000;
-    text-decoration: none;
-    background-color: #ebebed;
-    width: fit-content;
-    border: 1px solid #000;
-    padding: 2px;
-}
 
 #nav-header{
     display: flex;

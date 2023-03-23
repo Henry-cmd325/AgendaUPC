@@ -1,27 +1,17 @@
-<aside id="menu">
-    <ul>
-        <li>
-            <a asp-controller="Homework" asp-action="Index">Tareas por hacer</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a asp-controller="Schedule" asp-action="Index">Administrar horario</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a asp-controller="Homework" asp-action="Completed">Ver tareas completadas</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a asp-controller="Subject" asp-action="Index">Materias</a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a asp-controller="User" asp-action="LogOut">Cerrar sesión</a>
-        </li>
-    </ul>
+<link rel="stylesheet" href="~/css/MenuComponent.css" asp-append-version="true" />
+
+<aside>
+    <input type="checkbox" id="drawer-toggle" name="drawer-toggle" />
+    <label for="drawer-toggle" id="drawer-toggle-label"></label>
+    <header class="headerMenu">UPCTABASCO</header>
+    <nav id="drawer">
+        <ul>
+            <li class="list_item"><a asp-controller="Homework" asp-action="Index">Tareas por hacer</a></li>
+            <li class="list_item"><a asp-controller="Schedule" asp-action="Index">Administrar horario</a></li>
+            <li class="list_item"><a asp-controller="Homework" asp-action="Completed">Ver tareas completadas</a></li>
+            <li class="list_item"><a asp-controller="Subject" asp-action="Index">Materias</a></li>
+            <li class="list_item"><a asp-controller="User" asp-action="LogOut">Cerrar sesión</a></li>
+        </ul>
+    </nav>
+    
 </aside>

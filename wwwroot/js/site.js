@@ -1,7 +1,4 @@
-﻿document.getElementById("ham-btn").addEventListener("click", () => {
-    
-});
-
+﻿
 
 const validateSignin = () => {
     let isValid = true;

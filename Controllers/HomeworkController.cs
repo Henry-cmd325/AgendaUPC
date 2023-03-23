@@ -22,7 +22,12 @@ public class HomeworkController : Controller
     }
     public IActionResult Index(int id)
     {
-        return View("Views/Homework/Index.cshtml", _service.GetAll(_idUsuario).Data);
+        var model = new DetailsHomework()
+        {
+            Homework = _service.GetAll(_idUsuario).Data!,
+            Subjects = _subjects.GetAll(_idUsuario).Data!
+        };
+        return View("Views/Homework/Index.cshtml", model);
     }
 
     [Route("Subject/{id:int}")]
@@ -41,30 +46,7 @@ public class HomeworkController : Controller
         return View(_subjects.GetAll(_idUsuario).Data);
     }
 
-    [Route("Details/{id:int}")]
-    public IActionResult Details(int id)
-    {
-        var response = _service.Get(id, _idUsuario);
-
-        if (!response.Success)
-        {
-            TempData["Error"] = response.Error;
-
-            return RedirectToAction("Index");
-        }
-
-        var newDetails = new DetailsHomework()
-        {
-            IdTarea = response.Data!.IdTarea,
-            Materia = response.Data!.Materia,
-            Nombre = response.Data!.Nombre,
-            Descripcion = response.Data!.Descripcion,
-            FechaLimite = response.Data!.FechaLimite,
-            Subjects =  _subjects.GetAll(_idUsuario).Data!
-        };
-
-        return View(newDetails);
-    }
+    
 
     [HttpPost]
     public IActionResult PostHomework(HomeworkRequest request)

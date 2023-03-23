@@ -1,0 +1,251 @@
+﻿.card {
+    max-height: 500px;
+    width: 500px;
+    margin-right: 20px;
+    margin-left:10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.main-contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.no-tarea {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
+
+.content-agregarTarea {
+    left: 50%;
+    top: 50%;
+    margin-top: 40px;
+    justify-content:center;
+    position:center;
+
+}
+
+.agregar-tarea {
+
+    padding: 10px 20px;
+    background-color: #3b9cff !important;
+    color: #fff !important;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+    transform: translate(-50%, -50%);
+}
+
+    .agregar-tarea:hover {
+        background-color: #007bff;
+    }
+
+.card-header {
+    background-color: #E9F5F5;
+    padding: 20px;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4C4C4C;
+}
+
+.card-title2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4C4C4C;
+}
+
+.card-subtitle {
+    margin: 0;
+    font-size: 16px;
+    color: #A6A6A6;
+}
+
+.card-body {
+    background-color: #F9F9F9;
+    padding: 20px;
+    height: 200px;
+}
+
+.card-text {
+    margin: 0;
+    font-size: 16px;
+    color: #4C4C4C;
+    line-height: 1.5;
+}
+
+.card-link {
+    display: block;
+    margin-top: 20px;
+    color: #A6A6A6;
+    text-decoration: none;
+    font-size: 16px;
+    text-align: right;
+}
+
+.card-footer {
+    background-color: #F9F9F9;
+    margin-bottom: 10PX;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 0;
+    cursor: pointer;
+    font-size: 16px;
+    color: #4C4C4C;
+    user-select: none;
+}
+
+    .checkbox-container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    .btn-container button {
+        margin-left: 10px;
+    }
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        margin: 10px 0;
+        height: auto;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-header {
+        font-size: 1.2rem;
+    }
+
+    .btn-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .btn-container button {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Para centrar las cards horizontalmente */
+    gap: 50px; /* Espacio entre las cards */
+}
+
+
+.card-footer .btn-container > div:first-child {
+    margin-right: 10px;
+}
+
+.mark-completed {
+    background-color: #4CAF50;
+    margin-top: 0%;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+    .mark-completed:hover {
+        background-color: #3e8e41;
+        cursor: pointer;
+    }
+
+
+
+
+
+
+#contenedor-principal {
+    position: relative;
+}
+
+#contenedor-difuminado {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#contenedor-tareas {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 2;
+    padding: 29px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    height: 90%;
+    width: 80%;
+    max-width: 600px;
+    max-height: 600px;
+    overflow: hidden;
+    box-sizing: border-box;
+    word-wrap: break-word;
+}
+
+    #contenedor-tareas h2 {
+        margin-top: 0;
+    }
+
+    #contenedor-tareas.visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+#contenedor-difuminado.visible {
+    opacity: 1;
+    pointer-events: all;
+}
