@@ -80,14 +80,14 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Signin(SigninOutMoodle request)
     {
-        if (!ModelState.IsValid)
-        {
-            return View("Signin", request);
-        }
-
         var response = _service.Post(request);
 
-        if (!response.Success) return RedirectToAction("Signin");
+        if (!response.Success)
+        {
+            TempData["Error"] = response.Error;
+ 
+            return RedirectToAction("Signin");
+        }
 
         return RedirectToAction("Login");
     }

@@ -1,6 +1,4 @@
-﻿
-
-const validateSignin = () => {
+﻿const validateSignin = () => {
     let isValid = true;
     let $form = document.getElementById("form-login");
 

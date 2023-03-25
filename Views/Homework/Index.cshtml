@@ -10,7 +10,7 @@
     <div class="content-agregarTarea">
         <a asp-action="Create" class="agregar-tarea">Agregar tarea</a>
     </div>
-    
+
     @if (Model.Homework.Count == 0)
     {
         <div class="no-tarea">
@@ -18,22 +18,27 @@
         </div>
     }
     <div class="card-container">
-        
+
         @foreach (var homework in Model.Homework)
         {
-            string day = homework.FechaLimite.Day < 10 ? "0" + homework.FechaLimite.Day : homework.FechaLimite.Day.ToString();
-            string month = homework.FechaLimite.Month < 10 ? "0" + homework.FechaLimite.Month : homework.FechaLimite.Month.ToString();
+            string day = homework.FechaLimite.Day < 10 
+                ? "0" + homework.FechaLimite.Day 
+                : homework.FechaLimite.Day.ToString();
+
+            string month = homework.FechaLimite.Month < 10 
+                ? "0" + homework.FechaLimite.Month 
+                : homework.FechaLimite.Month.ToString();
 
 
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">@homework.Nombre </h1>
-                    <h2 class="card-title2">@homework.Materia</h2>
-                    <h3 class="card-subtitle">Fecha límite: @day/@month/@homework.FechaLimite.Year</h3>
+                    <h1 class="card-title" id="nombre-@homework.IdTarea">@homework.Nombre </h1>
+                    <h2 class="card-title2" id="materia-@homework.IdTarea">@homework.Materia</h2>
+                    <h3 class="card-subtitle" id="fecha-@homework.IdTarea">Fecha lÃ­mite: @day/@month/@homework.FechaLimite.Year</h3>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción de la tarea. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris euismod turpis vel enim pellentesque, non malesuada quam dignissim. Curabitur ultrices, mi eu rutrum luctus, sem est dictum lacus, in laoreet urna metus et lorem.</p>
-                    <a class="card-link" id="ver-mas">Ver más</a>
+                    <p class="card-text" id="descripcion-@homework.IdTarea">@homework.Descripcion</p>
+                    <button class="card-link" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver mÃ¡s</button>
                 </div>
                 <div class="card-footer">
                     <div class="checkbox-container">
@@ -44,9 +49,6 @@
 
                 </div>
             </div>
-
-
-
         }
     </div>
 
@@ -60,12 +62,8 @@
             }
             <form id="form-create-hw" asp-action="PutHomework" method="Post">
                 <h2 id="nombre" class="unhide">Investigar</h2>
-                <input type="hidden" name="IdTarea">
-                <input class="hide"
-                       name=Nombre
-                       type="text"
-                       id="input-nombre"
-                       placeholder="Editar nombre">
+                <input id="update-id" type="hidden" name="IdTarea">
+                <input class="hide" name=Nombre type="text" id="input-nombre" placeholder="Editar nombre">
                 <span class="val-error" id="nombre-error"></span>
 
                 <p id="materia" class="unhide">Matematicas pa ingenieria II</p>
@@ -73,30 +71,23 @@
                     <option value="0">Seleccione una materia</option>
                     @foreach (var subject in Model.Subjects)
                     {
-
                         <option value="@subject.IdMateria">
                             @subject.Nombre
                         </option>
-
                     }
                 </select>
                 <span class="val-error" id="materia-error"></span>
 
-                <p id="descripcion" class="unhide">lspfjskpfipfhkpsfskfhwfhiewfhwkhwkhwipvhewuovdwhvgidvhewjvbhcgewibdhcgouewhewhviewhjdbvhdgviewhfbdvhdcgd </p>
-                <textarea id="input-tarea"
-                          class="hide"
-                          name="Descripcion"
-                          maxlength="700"
-                          placeholder="Editar descripcion">
+                <p id="descripcion" class="unhide">
+                    lspfjskpfipfhkpsfskfhwfhiewfhwkhwkhwipvhewuovdwhvgidvhewjvbhcgewibdhcgouewhewhviewhjdbvhdgviewhfbdvhdcgd
+                </p>
+                <textarea id="input-tarea" class="hide" name="Descripcion" maxlength="700"
+                    placeholder="Editar descripcion">
         </textarea>
                 <span class="val-error" id="error-descripcion"></span>
 
                 <span id="text-fecha-limite" class="unhide">10/03/2003</span>
-                <input id="fecha-limite"
-                       type="date"
-                       class="hide"
-                       value=""
-                       name="FechaLimite">
+                <input id="fecha-limite" type="date" class="hide" value="" name="FechaLimite">
                 <span class="val-error" id="error-date"></span>
             </form>
 

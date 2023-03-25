@@ -33,7 +33,14 @@ public class HomeworkController : Controller
     [Route("Subject/{id:int}")]
     public IActionResult Subject(int id)
     {
-        return View("Views/Homework/Index.cshtml", _service.GetAll(_idUsuario, id).Data);
+        var model = new DetailsHomework()
+        {
+            Homework = _service.GetAll(_idUsuario, id).Data!,
+            Subjects = new()
+        };
+        model.Subjects.Add(_subjects.Get(id).Data!);
+
+        return View("Views/Homework/Index.cshtml", model);
     }
 
     public IActionResult Completed()

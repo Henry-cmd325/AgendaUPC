@@ -221,7 +221,6 @@ public class UserService : IUserService
             }
         }
 
-
         response.Data = new()
         {
             IdUsuario = newUser.IdUsuario,

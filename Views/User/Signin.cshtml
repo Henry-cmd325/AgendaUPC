@@ -34,6 +34,11 @@
             <span class="val-error" id="password-2-error"></span>
         </div>
 
+        @if (TempData["Error"] != null)
+        {
+            <p>@TempData["Error"]</p>
+        }
+
         <a onclick="validateSignin()">
             <span></span>
             <span></span>
