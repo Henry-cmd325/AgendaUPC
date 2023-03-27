@@ -61,14 +61,14 @@
                 <h2>@TempData["Error"]</h2>
             }
             <form id="form-create-hw" asp-action="PutHomework" method="Post">
-                <h2 id="nombre" class="unhide">Investigar</h2>
+                <h2 id="nombre" class="unhide"></h2>
                 <input id="update-id" type="hidden" name="IdTarea">
                 <input class="hide" name=Nombre type="text" id="input-nombre" placeholder="Editar nombre">
                 <span class="val-error" id="nombre-error"></span>
 
-                <p id="materia" class="unhide">Matematicas pa ingenieria II</p>
+                <p id="materia" class="unhide"></p>
                 <select id="materia-select" name="IdMateria" class="hide">
-                    <option value="0">Seleccione una materia</option>
+                    <option value="0"></option>
                     @foreach (var subject in Model.Subjects)
                     {
                         <option value="@subject.IdMateria">
@@ -78,9 +78,7 @@
                 </select>
                 <span class="val-error" id="materia-error"></span>
 
-                <p id="descripcion" class="unhide">
-                    lspfjskpfipfhkpsfskfhwfhiewfhwkhwkhwipvhewuovdwhvgidvhewjvbhcgewibdhcgouewhewhviewhjdbvhdgviewhfbdvhdcgd
-                </p>
+                <p id="descripcion" class="unhide"></p>
                 <textarea id="input-tarea" class="hide" name="Descripcion" maxlength="700"
                     placeholder="Editar descripcion">
         </textarea>
