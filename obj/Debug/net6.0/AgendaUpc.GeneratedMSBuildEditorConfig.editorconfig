@@ -24,12 +24,17 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZXdvcmtcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< HEAD
 [C:/Programación/AgendaUPC/Views/Homework/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZXdvcmtcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Programación/AgendaUPC/Views/Homework/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZXdvcmtcSW5kZXguY3NodG1s
+=======
+[/home/henry/Documentos/Programacion/AgendaUPC/AgendaUPC/Views/Homework/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZXdvcmsvSW5kZXguY3NodG1s
+>>>>>>> aa3d335977e26e6b318f0ddfe56002ebfd6977d6
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Programación/AgendaUPC/Views/Schedule/Index.cshtml]

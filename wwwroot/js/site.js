@@ -80,7 +80,7 @@ const validateCreateHomework = () => {
         isValid = false;
     }
 
-    if (document.getElementById("fecha-limite").value === null){
+    if (document.getElementById("fecha-limite").value === ""){
         document.getElementById("error-date").innerText = "Debes de seleccionar una fecha";
         isValid = false;
     }

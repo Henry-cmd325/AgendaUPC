@@ -14,10 +14,10 @@ const verMas = (id) => {
     const $descripcion = document.getElementById("descripcion");
     const $fecha = document.getElementById("text-fecha-limite");
 
-    $nombre.innerText = document.getElementById(`nombre-${id}`).innerText;
-    $materia.innerText = document.getElementById(`materia-${id}`).innerText;
-    $descripcion.innerText = document.getElementById(`descripcion-${id}`).innerText;
-    $fecha.innerText = document.getElementById(`fecha-${id}`).innerText;
+    $nombre.value = document.getElementById(`nombre-${id}`).innerText;
+    $materia.value = document.getElementById(`materia-${id}`).innerText;
+    $descripcion.value = document.getElementById(`descripcion-${id}`).innerText;
+    $fecha.value = document.getElementById(`fecha-${id}`).innerText;
 
     document.getElementById("update-id").value = id;
 
