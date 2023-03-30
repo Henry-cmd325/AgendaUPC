@@ -31,21 +31,21 @@ public partial class AgendaUpcContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;database=AgendaUPC;uid=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql"));
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
+            .UseCollation("utf8mb4_unicode_ci")
             .HasCharSet("utf8mb4");
 
         modelBuilder.Entity<Dia>(entity =>
         {
             entity.HasKey(e => e.IdDia).HasName("PRIMARY");
 
-            entity.Property(e => e.IdDia).HasColumnName("id_dia");
+            entity.ToTable("dias");
+
+            entity.Property(e => e.IdDia)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_dia");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(20)
                 .HasColumnName("nombre");
@@ -55,21 +55,29 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdHorariosMaterias).HasName("PRIMARY");
 
-            entity.ToTable("Horario_materias");
+            entity.ToTable("horario_materias");
 
-            entity.HasIndex(e => e.IdUsuario, "fk_HorariosMaterias_Usuarios");
+            entity.HasIndex(e => e.IdUsuario, "fk_Horariomaterias_Usuarios");
 
             entity.HasIndex(e => e.IdDia, "fk_horariomaterias_dias");
 
             entity.HasIndex(e => e.IdMateria, "fk_horariomaterias_materias");
 
-            entity.Property(e => e.IdHorariosMaterias).HasColumnName("id_horarios_materias");
+            entity.Property(e => e.IdHorariosMaterias)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_horarios_materias");
             entity.Property(e => e.Hora)
                 .HasColumnType("time")
                 .HasColumnName("hora");
-            entity.Property(e => e.IdDia).HasColumnName("id_dia");
-            entity.Property(e => e.IdMateria).HasColumnName("id_materia");
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.IdDia)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_dia");
+            entity.Property(e => e.IdMateria)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
 
             entity.HasOne(d => d.IdDiaNavigation).WithMany(p => p.HorarioMateria)
                 .HasForeignKey(d => d.IdDia)
@@ -83,14 +91,18 @@ public partial class AgendaUpcContext : DbContext
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.HorarioMateria)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_HorariosMaterias_Usuarios");
+                .HasConstraintName("fk_Horariomaterias_Usuarios");
         });
 
         modelBuilder.Entity<Materia>(entity =>
         {
             entity.HasKey(e => e.IdMateria).HasName("PRIMARY");
 
-            entity.Property(e => e.IdMateria).HasColumnName("id_materia");
+            entity.ToTable("materias");
+
+            entity.Property(e => e.IdMateria)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia");
             entity.Property(e => e.Generacion)
                 .HasMaxLength(20)
                 .HasColumnName("generacion");
@@ -106,15 +118,21 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdMateriaUsuario).HasName("PRIMARY");
 
-            entity.ToTable("Materias_usuarios");
+            entity.ToTable("materias_usuarios");
 
             entity.HasIndex(e => e.IdUsuario, "Materias_usuarios");
 
             entity.HasIndex(e => e.IdMateria, "fk_materiasusuarios_materias");
 
-            entity.Property(e => e.IdMateriaUsuario).HasColumnName("id_materia_usuario");
-            entity.Property(e => e.IdMateria).HasColumnName("id_materia");
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.IdMateriaUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia_usuario");
+            entity.Property(e => e.IdMateria)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
 
             entity.HasOne(d => d.IdMateriaNavigation).WithMany(p => p.MateriasUsuarios)
                 .HasForeignKey(d => d.IdMateria)
@@ -131,16 +149,22 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdTarea).HasName("PRIMARY");
 
+            entity.ToTable("tareas");
+
             entity.HasIndex(e => e.IdMateria, "fk_tareas_materias");
 
-            entity.Property(e => e.IdTarea).HasColumnName("id_tarea");
+            entity.Property(e => e.IdTarea)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_tarea");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(700)
                 .HasColumnName("descripcion");
             entity.Property(e => e.FechaLimite)
                 .HasColumnType("datetime")
                 .HasColumnName("fecha_limite");
-            entity.Property(e => e.IdMateria).HasColumnName("id_materia");
+            entity.Property(e => e.IdMateria)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(40)
                 .HasColumnName("nombre");
@@ -155,21 +179,27 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdUnica).HasName("PRIMARY");
 
-            entity.ToTable("Tareas_unicas");
+            entity.ToTable("tareas_unicas");
 
             entity.HasIndex(e => e.IdMateria, "fk_tareasunicas_materias");
 
             entity.HasIndex(e => e.IdUsuario, "fk_tareasunicas_usuarios");
 
-            entity.Property(e => e.IdUnica).HasColumnName("id_unica");
+            entity.Property(e => e.IdUnica)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_unica");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(700)
                 .HasColumnName("descripcion");
             entity.Property(e => e.FechaEntrega)
                 .HasColumnType("datetime")
                 .HasColumnName("fecha_entrega");
-            entity.Property(e => e.IdMateria).HasColumnName("id_materia");
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.IdMateria)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_materia");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(40)
                 .HasColumnName("nombre");
@@ -192,15 +222,21 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdTareasUsuarios).HasName("PRIMARY");
 
-            entity.ToTable("Tareas_usuarios");
+            entity.ToTable("tareas_usuarios");
 
             entity.HasIndex(e => e.IdTarea, "fk_tareasusuarios_tareas");
 
             entity.HasIndex(e => e.IdUsuario, "fk_tareasusuarios_usuarios");
 
-            entity.Property(e => e.IdTareasUsuarios).HasColumnName("id_tareas_usuarios");
-            entity.Property(e => e.IdTarea).HasColumnName("id_tarea");
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.IdTareasUsuarios)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_tareas_usuarios");
+            entity.Property(e => e.IdTarea)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_tarea");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
             entity.Property(e => e.Terminada)
                 .HasColumnType("bit(1)")
                 .HasColumnName("terminada");
@@ -220,7 +256,11 @@ public partial class AgendaUpcContext : DbContext
         {
             entity.HasKey(e => e.IdUsuario).HasName("PRIMARY");
 
-            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.ToTable("usuarios");
+
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
             entity.Property(e => e.ContraSiupc)
                 .HasMaxLength(100)
                 .HasColumnName("contra_siupc");
