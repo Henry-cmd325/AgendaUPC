@@ -5,101 +5,74 @@
 }
 <link rel="stylesheet" href="~/css/Card.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    .Card-card{margin-bottom:40px;}
+</style>
 @(await Component.InvokeAsync("Menu"))
 
-<div class="main-contenedor">
-    <div class="content-agregarTarea">
-        <a asp-action="Create" class="agregar-tarea">Agregar tarea</a>
-    </div>
+<div class="content-agregarTarea">
+    <a asp-action="Create" class="agregar-tarea">Agregar tarea</a>
+</div>
 
-    @if (Model.Homework.Count == 0)
-    {
-        <div class="no-tarea">
-            <p>No tienes ninguna tarea pendiente</p>
-        </div>
-    }
-    <div class="card-container" id="gallery">
-        <div class="row align-items-center justify-content-center mx-auto">
+@if (Model.Homework.Count == 0)
+{
+    <div class="no-tarea">
+        <p>No tienes ninguna tarea pendiente</p>
+    </div>
+}
+
+<div class="main-contenedor">
+    <div class="container">
+        <div class="row g-4">
             @foreach (var homework in Model.Homework)
             {
-                string day = homework.FechaLimite.Day < 10 
-                    ? "0" + homework.FechaLimite.Day 
-                    : homework.FechaLimite.Day.ToString();
+                string day = homework.FechaLimite.Day < 10
+                ? "0" + homework.FechaLimite.Day
+                : homework.FechaLimite.Day.ToString();
 
-                string month = homework.FechaLimite.Month < 10 
-                    ? "0" + homework.FechaLimite.Month 
-                    : homework.FechaLimite.Month.ToString();
+                string month = homework.FechaLimite.Month < 10
+                ? "0" + homework.FechaLimite.Month
+                : homework.FechaLimite.Month.ToString();
 
-            
-                    <div class="col-12 col-lg-4 mb-4 mx-auto ">
-                        <div class="card">
-                            <img src="https://images.unsplash.com/photo-1516214104703-d870798883c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
-                            <div class="card-body">
-                            
-                                    <h5 class="card-title" id="nombre-@homework.IdTarea">@homework.Nombre</h5>
-                                    <h5 class="card-title" id="materia-@homework.IdTarea">@homework.Materia</h5>
-                                    <h5 class="card-subtitle" id="fecha-@homework.IdTarea">Fecha límite: @day/@month/@homework.FechaLimite.Year</h5>
-                            
-                                @{
-                                    if (homework.Descripcion.Length > 30)
-                                    {
-                                        <p class="card-text">@homework.Descripcion.Substring(0,30)...</p>
-                                        <button class="btn btn-outline-success btn-sm" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</button>
-                                        <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea class="btn btn-outline-danger btn-sm">
-                                           Entregado
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <p class="card-text">@homework.Descripcion</p>
-                                        <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea class="btn btn-outline-danger btn-sm">
-                                            Entregado
-                                        </a>
-                                    }
-                                    <p class="hide" id="descripcion-@homework.IdTarea">@homework.Descripcion</p>
+                <div class="col col-lg-4 Card-card" >
+                    <div class="card h-100 border-danger">
+                        <div class="card-header bg-danger text-white" id="nombre-@homework.IdTarea">@homework.Nombre</div>
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted" id="materia-@homework.IdTarea">@homework.Materia</h6>
+                            <p class="card-text" id="fecha-@homework.IdTarea">Fecha límite: @day/@month/@homework.FechaLimite.Year</p>
+                            @{
+                                if (homework.Descripcion.Length > 30)
+                                {
+                                    <p class="card-text">@homework.Descripcion.Substring(0,30)...</p>
+                                    <div class="d-grid gap-2">
+                                        <a href="#" class="btn btn-danger" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</a>
+                                        <button class="btn btn-secondary mt-2" a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
+                                            Marcar como entregada
+                                        </button>
+                                    </div>
                                 }
-                    
-                    
-                            </div>
+                                else
+                                {
+                                    <p class="card-text">@homework.Descripcion</p>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-secondary mt-2" a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
+                                            Marcar como entregada
+                                        </button>
+                                    </div>
+                                }
+                                <p class="hide" id="descripcion-@homework.IdTarea">@homework.Descripcion</p>
+                            }
+
+
                         </div>
                     </div>
-           
-
-
-               /* <div class="card">
-                    <div class="card-header">
-                        <h1 class="card-title" id="nombre-@homework.IdTarea">@homework.Nombre </h1>
-                        <h2 class="card-title2" id="materia-@homework.IdTarea">@homework.Materia</h2>
-                        <h3 class="card-subtitle" id="fecha-@homework.IdTarea">Fecha límite: @day/@month/@homework.FechaLimite.Year</h3>
-                    </div>
-                    <div class="card-body">
-                        @{
-                            if (homework.Descripcion.Length > 30)
-                            {
-                                <p class="card-text">@homework.Descripcion.Substring(0,30)...</p>
-                                <button class="card-link" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</button>
-                            }
-                            else
-                            {
-                                <p class="card-text">@homework.Descripcion</p>
-                            }
-                            <p class="hide" id="descripcion-@homework.IdTarea">@homework.Descripcion</p>
-                         }
-                    
-                    
-                    </div>
-                    <div class="card-footer">
-                        <div class="checkbox-container">
-                            <a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea class="card-link mark-completed">
-                                Marcar como entregado
-                            </a>
-                        </div>
-
-                    </div>
-                </div>*/
+                </div>
             }
-         </div>
+        </div>
     </div>
+
+    
+    
 
     <div id="contenedor-principal">
         <div id="contenedor-difuminado" class="oculto"></div>
