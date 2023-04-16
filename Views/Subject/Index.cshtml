@@ -6,9 +6,7 @@
 
 @(await Component.InvokeAsync("Menu"))
 
-<h1>Materias</h1>
 
-<button onclick=hideFormMatCreate()>Crear nueva materia</button>
 
 @if (Model.Count == 0)
 {
@@ -16,36 +14,100 @@
         <p>Todavia no has creado ninguna materia</p>
     </div>
 }
-<div id="mat-container">
-    @foreach (var subject in Model)
-    {
-        <div class="mat-card">
-            <p>@subject.Nombre</p>
-            <a asp-controller="Homework" asp-action="Subject" asp-route-id="@subject.IdMateria">Ver Tareas</a>
-            <button onclick=hideFormMatEdit(@subject.IdMateria)>Editar</button>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<div class="main-contenedor min-vw-1000">
+    <div class="container mt-5 ">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Lista de materias</h3>
+                        <button type="button" onclick=hideFormMatCreate() class="btn btn-danger float-right" data-toggle="modal" data-target="#nuevaMateriaModal">Nueva materia</button>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @foreach (var subject in Model)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="mb-0">@subject.Nombre</h4>
+                                        <div>
+                                            <button type="button" class="btn btn-danger mr-2" onclick=hideFormMatEdit(@subject.IdMateria)>Editar</button>
+                                            <a type="button" class="btn btn-secondary" asp-controller="Homework" asp-action="Subject" asp-route-id="@subject.IdMateria">Ver tareas</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    }
+    </div>
+
+    <div class="fixed-top hide" id="edit-container" >
+        <div id="editarMateriaModal" aria-labelledby="editarMateriaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarMateriaModalLabel">Editar materia</h5>
+                        <button type="button" class="close" data-dismiss="modal" onclick=hideFormMatEdit() aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="fm-edit-mat" asp-action="EditSubject" method="Post">
+                            <div class="form-group">
+                                <label for="nombreMateriaEdit">Nombre de la materia:</label>
+                                <input id="id-edit" type="hidden" name="IdMateria">
+                                <input type="text" class="form-control" id="edit-name" name="Nombre" placeholder="Escribe el nombre de la materia">
+                                <span id="edit-error" class="text-danger form-control" style="border:none"></span>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick=hideFormMatEdit()>Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick=subjectEdit()>Guardar cambios</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fixed-top hide" id="create-container">
+
+        <div id="nuevaMateriaModal" tabindex="-1" role="dialog" aria-labelledby="nuevaMateriaModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevaMateriaModalLabel">Nueva materia</h5>
+                        <button type="button" class="close" aria-label="Close" onclick=hideFormMatCreate()>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="fm-create-mat" asp-action="CreateSubject" method="Post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="nombreMateria">Nombre de la materia:</label>
+                                <input type="text" class="form-control" name="Nombre" id="create-name" placeholder="Escribe el nombre de la materia">
+                                <span id="create-error" class="text-danger form-control" style="border:none"></span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick=hideFormMatCreate()>Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick=subjectCreate()>Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
 </div>
 
-<div class="hide" id="edit-container">
-    <form id="fm-edit-mat" asp-action="EditSubject" method="Post">
-        <h2>Editar materia</h2>
-        <input id="id-edit" type="hidden" name="IdMateria">
-        <input id="edit-name" type="text" name="Nombre">
-        <span id="edit-error"></span>
-    </form>
-
-    <button onclick=hideFormMatEdit()>Cancelar</button>
-    <button onclick=subjectEdit()>Guardar</button>
-</div>
-
-<div class="hide" id="create-container">
-    <form id="fm-create-mat" asp-action="CreateSubject" method="Post">
-        <h2>Crear materia</h2>
-        <input id="create-name" type="text" name="Nombre">
-        <span id="create-error"></span>
-    </form>
-
-    <button onclick=hideFormMatCreate()>Cancelar</button>
-    <button onclick=subjectCreate()>Guardar</button>
-</div>

@@ -4,75 +4,103 @@
     ViewData["Title"] = "Administración de horario";
 
     string[] dias = {"Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+    string[] colors = { "table-primary", "table-secondary", "table-success", "table-danger", "table-warning", "table-info", "table-primary" };
 }
 
 @(await Component.InvokeAsync("Menu"))
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<h1>Horarios</h1>
-<table>
-    <thead>
-        <th>Hora</th>
-        <th>Lunes</th>
-        <th>Martes</th>
-        <th>Miércoles</th>
-        <th>Jueves</th>
-        <th>Viernes</th>
-        <th>Sabado</th>
-        <th>Domingo</th>
-    </thead>
-    <tbody>
-        @for (int i = 5; i < 21; i++)
-        {
-            int horaLimite = i + 1;
-
-            <tr>
-                <th>
-                    @i:00 - @horaLimite:00
-                </th>
-            @for (int j = 0; j < 7; j++)
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Horario</h2>
+    <table class="table border-dark table-bordered table-hover mb-5">
+      <thead class="bg-danger">
+        <tr>
+          <th scope="col" class="text-white">Horas</th>
+          <th scope="col" class="text-white">Lunes</th>
+          <th scope="col" class="text-white">Martes</th>
+          <th scope="col" class="text-white">Miércoles</th>
+          <th scope="col" class="text-white">Jueves</th>
+          <th scope="col" class="text-white">Viernes</th>
+          <th scope="col" class="text-white">Sábado</th>
+          <th scope="col" class="text-white">Domingo</th>
+        </tr>
+      </thead>
+      <tbody>
+            @for (int i = 5; i < 21; i++)
             {
-                var schedule = Model.Schedules.Where(m => m.Hora.Hour == i && m.Dia == dias[j]).FirstOrDefault();
-
-                <td>
-                    @if (schedule != null)
+                int horaLimite = i + 1;
+                <tr>
+                    <th scope="row" class="align-middle">@i:00 - @horaLimite:00</th>
+                    @for (int j = 0; j < 7; j++)
                     {
-                        <div class="schedule-container" onclick=showFormUpdateSchedule(@schedule.IdSchedule)>
-                            <p>
-                                @schedule.Materia
-                            </p>
+                        var schedule = Model.Schedules.Where(m => m.Hora.Hour == i && m.Dia == dias[j]).FirstOrDefault();
+
+                        <td class="align-middle " onclick=showFormUpdateSchedule(@schedule.IdSchedule)>
+                            @if (schedule != null)
+                            {
+                            
+                                        @schedule.Materia
+                                    
+                           
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+
+        
+        
+      </tbody>
+    </table>
+  </div>
+
+<div class="fixed-top hide" id="form-schedule-container">
+
+    <div id="nuevaMateriaModal" tabindex="-1" role="dialog" aria-labelledby="nuevaMateriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaMateriaModalLabel">Agregar Materia</h5>
+                    <button type="button" class="close" aria-label="Close" onclick=hideFormUpdateSchedule()>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="form-edit-schedule" asp-action="UpdateSchedule" method="Post">
+                    
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input name="IdSchedule" type="hidden" id="id-edit">
+                            <select name="IdMateria" class="form-control" id="edit-name">
+                                <option value="0">
+                                    @if (Model.Subjects.Count == 0)
+                                    {
+                                        <p>No existe ninguna materia</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Seleccione una materia</p>
+                                    }
+                                </option>
+                                @foreach (var subject in Model.Subjects)
+                                {
+                                    <option value="@subject.IdMateria">@subject.Nombre</option>
+                                }
+                            </select>
+                            <span id="edit-name-error" class="text-danger form-control" style="border:none"></span>
                         </div>
-                    } 
-                </td>
-            }
-            </tr>
-        }
-    </tbody>
-</table>
-<div id="form-schedule-container" class="hide">
-    <form id="form-edit-schedule" asp-action="UpdateSchedule" method="Post">
-        <input name="IdSchedule" type="hidden" id="id-edit">
-        <select name="IdMateria" id="edit-name">
-            <option value="0">
-                @if (Model.Subjects.Count == 0)
-                {
-                    <p>No existe ninguna materia</p>
-                }
-                else
-                {
-                    <p>Seleccione una materia</p>
-                }
-            </option>
-            @foreach (var subject in Model.Subjects)
-            {
-                <option value="@subject.IdMateria">@subject.Nombre</option>
-            }
-        </select>
-        <span id="edit-name-error"></span>
-    </form>
-    <form id="form-schedule-delete" class="hide" asp-action="DeleteSchedule" method="Post">
-        <input name="Id" type="hidden" id="id-delete">
-    </form>
-    <button onclick=hideFormUpdateSchedule()>Cancelar</button>
-    <button onclick=deleteSchedule()>Eliminar</button>
-    <button onclick=validateUpdateSchedule()>Enviar</button>
+                    </div>
+                </form>
+                <form id="form-schedule-delete" class="hide" asp-action="DeleteSchedule" method="Post">
+                    <input name="Id" type="hidden" id="id-delete">
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick=hideFormUpdateSchedule()>Cancelar</button>
+                    <button type="button" class="btn btn-secondary" onclick=deleteSchedule()>Eliminar</button>
+                    <button type="button" class="btn btn-danger"  onclick=validateUpdateSchedule()>Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

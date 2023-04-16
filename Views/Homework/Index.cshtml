@@ -45,19 +45,20 @@
                                 {
                                     <p class="card-text">@homework.Descripcion.Substring(0,30)...</p>
                                     <div class="d-grid gap-2">
-                                        <a href="#" class="btn btn-danger" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</a>
-                                        <button class="btn btn-secondary mt-2" a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
+                                        <button href="#" class="btn btn-danger" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</button>
+                                        <a class="btn btn-secondary mt-2" a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
                                             Marcar como entregada
-                                        </button>
+                                        </a>
                                     </div>
                                 }
                                 else
                                 {
                                     <p class="card-text">@homework.Descripcion</p>
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-secondary mt-2" a asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
+                                        <button href="#" class="btn btn-danger" id="ver-mas" onclick=verMas(@homework.IdTarea)>Ver más</button>
+                                        <a class="btn btn-secondary mt-2"  asp-action="CompleteHomework" asp-route-id=@homework.IdTarea>
                                             Marcar como entregada
-                                        </button>
+                                        </a>
                                     </div>
                                 }
                                 <p class="hide" id="descripcion-@homework.IdTarea">@homework.Descripcion</p>
@@ -83,37 +84,65 @@
                 <h2>@TempData["Error"]</h2>
             }
             <form id="form-create-hw" asp-action="PutHomework" method="Post">
-                <h2 id="nombre" class="unhide"></h2>
-                <input id="update-id" type="hidden" name="IdTarea">
-                <input class="hide" name=Nombre type="text" id="input-nombre" placeholder="Editar nombre">
-                <span class="val-error" id="nombre-error"></span>
+                <div class="modal-header bg-danger text-white">
+                    <h2 id="nombre" class="unhide"></h2>
+                </div>
+                <div class="modal-body">
+                    <input id="update-id" type="hidden" name="IdTarea">
+                    <div class="hide" id="div-nombre">
+                        <label for="nombreTarea" class="form-label">Nombre de la tarea</label>
+                        <input class="hide form-control" name=Nombre type="text" id="input-nombre" placeholder="Editar nombre">
+                    </div>
+                    
+                    <span class="val-error" id="nombre-error"></span>
 
-                <p id="materia" class="unhide"></p>
-                <select id="materia-select" name="IdMateria" class="hide">
-                    <option value="0"></option>
-                    @foreach (var subject in Model.Subjects)
-                    {
-                        <option value="@subject.IdMateria">
-                            @subject.Nombre
-                        </option>
-                    }
-                </select>
-                <span class="val-error" id="materia-error"></span>
+                    <p id="materia" class="unhide"></p>
+                    <div class="hide" id="div-materia">
+                        <label for="materia" class="form-label" >Materia</label>
+                        <select id="materia-select" name="IdMateria" class="hide form-select">
+                            <option value="0"></option>
+                            @foreach (var subject in Model.Subjects)
+                            {
+                                <option value="@subject.IdMateria">
+                                    @subject.Nombre
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    
+                    <span class="val-error" id="materia-error"></span>
 
-                <p id="descripcion" class="unhide"></p>
-                <textarea id="input-tarea" class="hide" name="Descripcion" maxlength="700"
-                    placeholder="Editar descripcion">
-        </textarea>
-                <span class="val-error" id="error-descripcion"></span>
+                    <p id="descripcion" class="unhide"></p>
+                    <div class="hide" id="div-descripcion">
+                        <label for="descripcion" class="form-label">Descripción de la tarea</label>
+                        <textarea id="input-tarea" class="form-control" name="Descripcion" maxlength="700"
+                                  placeholder="Editar descripcion" rows="5">
+                        </textarea>
+                    </div>
+                    
+                    <span class="val-error" id="error-descripcion"></span>
 
-                <span id="text-fecha-limite" class="unhide">10/03/2003</span>
-                <input id="fecha-limite" type="date" class="hide" value="" name="FechaLimite">
-                <span class="val-error" id="error-date"></span>
+                    <div class="hide" id="div-fecha">
+                        <label for="fecha" class="form-label">Fecha de entrega</label>
+                        <input id="fecha-limite" type="date" class="form-control" value="" name="FechaLimite">
+                    </div>
+                    <span id="text-fecha-limite" class="unhide"></span>
+                    <span class="val-error" id="error-date"></span>
+
+                </div>
+                
             </form>
-
-            <button id="btn-edit" class="unhide" onclick=hideInputs()>Editar</button>
-            <button id="btn-cancell" class="hide" onclick=hideInputs()>Cancelar</button>
-            <button id="btn-update" class="hide" onclick=validateCreateHomework()>Enviar</button>
+            <div class="modal-footer">
+                <div id="btn-edit" class="unhide">
+                    <button class="btn btn-danger" onclick=hideInputs()>Editar</button>
+                </div>
+                <div id="btn-cancell" class="hide">
+                    <button  class="btn btn-secondary" onclick=hideInputs()>Cancelar</button>
+                    <button id="btn-update" class="btn btn-danger" onclick=validateCreateHomework()>Enviar</button>
+                </div>
+                
+            </div>
+            
 
         </div>
     </div>

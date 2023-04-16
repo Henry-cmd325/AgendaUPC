@@ -129,14 +129,26 @@ const hideInputs = () => {
         unhide.push(label);
     else
         hide.push(label);
-    
-    label = document.getElementById("text-fecha-limite");
+
+    label = document.getElementById("div-nombre");
+    if (label.classList.contains("unhide"))
+        unhide.push(label);
+    else
+        hide.push(label);
+
+    label = document.getElementById("div-materia");
     if (label.classList.contains("unhide"))
         unhide.push(label);
     else
         hide.push(label);
     
-    label = document.getElementById("fecha-limite");
+    label = document.getElementById("div-descripcion");
+    if (label.classList.contains("unhide"))
+        unhide.push(label);
+    else
+        hide.push(label);
+
+    label = document.getElementById("div-fecha");
     if (label.classList.contains("unhide"))
         unhide.push(label);
     else
@@ -153,6 +165,13 @@ const hideInputs = () => {
         unhide.push(label);
     else
         hide.push(label);
+
+    label = document.getElementById("text-fecha-limite");
+    if (label.classList.contains("unhide"))
+        unhide.push(label);
+    else
+        hide.push(label);
+
     
     label = document.getElementById("btn-update");
     if (label.classList.contains("unhide"))

@@ -4,25 +4,49 @@
     ViewData["Title"] = "Crear Tarea";
 }
 
-<div>
-    <form asp-controller="Homework" asp-action="PostHomework" method="post" id="form-create-hw">
-        <input type="text" name="Nombre" id="nombre" placeholder="Introduce el nombre de la tarea">
-        <span class="val-error" id="nombre-error"></span>
-
-        <select name="IdMateria" id="materia">
-            <option value="0">Selecciona una materia</option>
-            @foreach (var materia in Model)
-            {
-                <option value=@materia.IdMateria>@materia.Nombre</option>
-            }
-        </select>
-        <span id="materia-error"></span>
-
-        <textarea id="descripcion" name="Descripcion" maxlength="700"></textarea>
-        <span class="val-error" id="error-descripcion"></span>
-
-        <input type="date" name="FechaLimite" id="fecha-limite">
-        <span class="val-error" id="error-date"></span>
-    </form>
-    <button onclick=validateCreateHomework()>Crear tarea</button>
-</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+ <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Agregar tarea</h3>
+          </div>
+          <div class="card-body">
+            <form asp-controller="Homework" asp-action="PostHomework" method="post" id="form-create-hw">
+              <div class="form-group">
+                <label for="nombreTarea">Nombre de la tarea:</label>
+                <input type="text" name="Nombre" class="form-control" id="nombre" placeholder="Escribe el nombre de la tarea">
+                <span class="val-error" id="nombre-error"></span>
+              </div>
+              <div class="form-group">
+                <label for="materia">Materia:</label>
+                <select class="form-control" name="IdMateria" id="materia">
+                  <option value="0">Selecciona una materia</option>
+                    @foreach (var materia in Model)
+                    {
+                        <option value=@materia.IdMateria>@materia.Nombre</option>
+                    }
+                </select>
+                <span id="materia-error"></span>
+              </div>
+              <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" name="Descripcion" rows="3" placeholder="Escribe una descripción de la tarea"></textarea>
+                <span class="val-error" id="error-descripcion"></span>
+              </div>
+              <div class="form-group">
+                <label for="fechaEntrega">Fecha de entrega:</label>
+                <input type="date" class="form-control" name="FechaLimite" id="fecha-limite">
+                <span class="val-error" id="error-date"></span>
+              </div>
+              
+            </form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger" onclick=validateCreateHomework()>Crear tarea</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -9,21 +9,44 @@ const contenedorDifuminado = document.getElementById('contenedor-difuminado');
 const contenedorTareas = document.getElementById('contenedor-tareas');
 
 const verMas = (id) => {
+    
     const $nombre = document.getElementById("nombre");
     const $materia = document.getElementById("materia");
     const $descripcion = document.getElementById("descripcion");
     const $fecha = document.getElementById("text-fecha-limite");
 
-    $nombre.value = document.getElementById(`nombre-${id}`).innerText;
-    $materia.value = document.getElementById(`materia-${id}`).innerText;
-    $descripcion.value = document.getElementById(`descripcion-${id}`).innerText;
-    $fecha.value = document.getElementById(`fecha-${id}`).innerText;
+    const $inputNombre = document.getElementById("input-nombre");
+    const $selectMateria = document.getElementById("materia-select");
+    const $inputDescripcion = document.getElementById("input-tarea");
+    const $inputFecha = document.getElementById("fecha-limite");
+
+    $nombre.innerText = document.getElementById(`nombre-${id}`).innerText;
+    $materia.innerText = document.getElementById(`materia-${id}`).innerText;
+    $descripcion.innerText = document.getElementById(`descripcion-${id}`).innerText;
+    $fecha.innerText = document.getElementById(`fecha-${id}`).innerText;
+
+    $inputNombre.value = document.getElementById(`nombre-${id}`).innerText;
+    for (let i = 0; i < $selectMateria.length; i++) {
+        let el = $selectMateria[i];
+        console.log(el.innerText)
+        if (el.innerText.trim() === $materia.innerText.trim()) {
+            
+            el.selected = "selected";
+        }
+    }
+   
+    
+    
+    $inputDescripcion.value = document.getElementById(`descripcion-${id}`).innerText;
+    $inputFecha.value = document.getElementById(`fecha-${id}`).innerText;
 
     document.getElementById("update-id").value = id;
 
     contenedorDifuminado.classList.add("visible");
     contenedorTareas.classList.add("visible");
 };
+
+
 
 contenedorTareas.addEventListener('click', function (e) {
     e.stopPropagation();
