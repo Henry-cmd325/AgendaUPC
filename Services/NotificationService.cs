@@ -54,7 +54,8 @@ public class NotificationService : INotificationService
                         CveUsuarios = idUsuario,
                         Mensaje = mensaje,
                         FechaHora = now,
-                        IdUnica = dbHomework.IdUnica
+                        IdUnica = dbHomework.IdUnica,
+                        
                     });
                     
                     _context.SaveChanges();
@@ -90,25 +91,10 @@ public class NotificationService : INotificationService
         ServerResponse<List<NotificationResponse>> response = new();
         response.Data = new();
 
-        var dbNotifications = _context.Notificaciones.Where(n => n.CveUsuarios == idUsuario).ToList();
-
-        foreach (var notification in dbNotifications)
-        {
-            response.Data.Add(new()
-            {
-                IdNotication = notification.CveNotificaciones,
-                IdUsuarios = idUsuario,
-                Mensaje = notification.Mensaje!,
-                FechaHora = notification.FechaHora
-            });
-        }
-
         var now = DateTime.Now;
-
         int idDia = now.DayOfWeek != DayOfWeek.Sunday? ((int)now.DayOfWeek): 7;
         var dbHorarios = _context.HorarioMaterias.Where(h => h.IdUsuario == idUsuario && h.IdDia == idDia).ToList();
 
-       
         foreach (var dbHorario in dbHorarios)
         {
             var materia = _context.Materias.Where(d => d.IdMateria == dbHorario.IdMateria).FirstOrDefault();
@@ -122,6 +108,7 @@ public class NotificationService : INotificationService
                         IdNotication = 0,
                         IdUsuarios = idUsuario,
                         Mensaje = $"En este momento debes de estar en {materia.Nombre}",
+                        Notificado = false,
                         FechaHora = now,
                     });
                 }
@@ -133,10 +120,25 @@ public class NotificationService : INotificationService
                         IdNotication = 0,
                         IdUsuarios = idUsuario,
                         Mensaje = $"En la siguiente hora debes de estar en {materia.Nombre}",
+                        Notificado = false,
                         FechaHora = now,
                     });
                 }
             }
+        }
+        
+        var dbNotifications = _context.Notificaciones.Where(n => n.CveUsuarios == idUsuario).ToList();
+
+        foreach (var notification in dbNotifications)
+        {
+            response.Data.Add(new()
+            {
+                IdNotication = notification.CveNotificaciones,
+                IdUsuarios = idUsuario,
+                Mensaje = notification.Mensaje!,
+                Notificado = notification.Notificado == 1? true: false,
+                FechaHora = notification.FechaHora
+            });
         }
 
         return response;
@@ -160,7 +162,7 @@ public class NotificationService : INotificationService
        {
             IdNotication = dbNotification.CveNotificaciones,
             IdUsuarios = idUsuario,
-            Mensaje = dbNotification.Mensaje,
+            Mensaje = dbNotification.Mensaje!,
             FechaHora = dbNotification.FechaHora
        };
 
@@ -184,13 +186,45 @@ public class NotificationService : INotificationService
         dbNotification.CveUsuarios = request.IdUsuarios;
         dbNotification.Mensaje = request.Mensaje;
         dbNotification.FechaHora = request.FechaHora;
+        dbNotification.Notificado = request.Notificado? (ulong)(1): (ulong)(0);
 
         response.Data = new()
         {
             IdNotication = dbNotification.CveNotificaciones,
             IdUsuarios = idUsuario,
             Mensaje = dbNotification.Mensaje,
+            Notificado = request.Notificado,
             FechaHora = dbNotification.FechaHora
+        };
+
+        return response;
+    }
+
+    public ServerResponse<NotificationResponse> PutNotified(int idNotication)
+    {
+        ServerResponse<NotificationResponse> response = new();
+
+        var dbNotification = _context.Notificaciones.Where(n => n.CveNotificaciones == idNotication).FirstOrDefault();
+
+        if (dbNotification == null)
+        {
+            response.Success = false;
+            response.Error = "El id introducido no corresponde con ninguna notificacion del usuario";
+
+            return response;
+        }
+
+        dbNotification.Notificado = (ulong)(1);
+        _context.Entry(dbNotification).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        _context.SaveChanges();
+        
+        response.Data = new()
+        {
+            IdNotication = dbNotification.CveNotificaciones,
+            IdUsuarios = dbNotification.CveUsuarios,
+            Mensaje = dbNotification.Mensaje!,
+            FechaHora = dbNotification.FechaHora,
+            Notificado = true
         };
 
         return response;

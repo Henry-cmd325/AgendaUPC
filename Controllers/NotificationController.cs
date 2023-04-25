@@ -30,6 +30,16 @@ public class NotificationController : ControllerBase
         return Ok(_service.GetNotification(_idUsuario, id));
     }
 
+    [HttpPut("{id}")]
+    public IActionResult PutNotified(int id)
+    {
+        var response = _service.PutNotified(id);
+
+        if (!response.Success) return NotFound(response);
+
+        return Ok(response);
+    }
+
     [HttpPost("{id}")]
     public IActionResult PutNotification(int id, NotificationRequest request)
     {

@@ -56,6 +56,7 @@ public class HomeworkController : Controller
 
     public IActionResult Create()
     {
+        _notifications.CheckNotifications(_idUsuario);
         return View(_subjects.GetAll(_idUsuario).Data);
     }
 
@@ -101,7 +102,6 @@ public class HomeworkController : Controller
         if (!tareaUsuario.Success) return RedirectToAction("Index");
 
         var response = _service.CompletarTarea(id);
-        _notifications.CheckNotifications(_idUsuario);
 
         if (!response.Success)
         {
@@ -130,6 +130,8 @@ public class HomeworkController : Controller
 
             return RedirectToAction("Index");
         }
+
+        _notifications.CheckNotifications(_idUsuario);
 
         TempData["Success"] = "La tarea ha sido desmarcada como completada";
 

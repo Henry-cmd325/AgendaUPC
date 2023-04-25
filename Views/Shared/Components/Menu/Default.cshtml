@@ -23,7 +23,9 @@
 <script>
     let url = "https://localhost:7113/";
 
-    Notification.requestPermission().then((result) => {
+    const checkNotifications = () =>
+    {
+        Notification.requestPermission().then((result) => {
         let $btnNotificaciones = document.getElementById("btn-notification");
         let $numNotificaciones = document.getElementById("num-notification");
 
@@ -32,49 +34,66 @@
             console.log("Notificaciones deshabilitadas");
         }
         else{
-        let numNotifications = 0;
+            let numNotifications = 0;
 
-        fetch(url + "api/Notification")
-            .then(res => {
-                if (res != undefined)
-                    return res.json();
-                else 
-                    throw Error("No hay ninguna notificación");
-            })
-            .catch(err => $btnNotificaciones.style.display = "none")
-            .then(response => {
-                let fragment = document.createDocumentFragment();
-
-                response.data.forEach(el => {
-                    numNotifications++;
-                    
-                    let $div = document.createElement("div");
-
-                    $div.classList.add("noti-container");
-
-                    $div.innerHTML = `
-                        <p>Notificacion</p>
-                        <p>${el.mensaje}</p>
-                    `;
-
-                    fragment.appendChild($div);
-                });
-
-                document.getElementById("noti-bar").appendChild(fragment);
-
-                if (numNotifications > 0){
-                    $btnNotificaciones.style.display = "block";
-                    $numNotificaciones.innerText = "(" + numNotifications + ")";
-                }
-                else{
+            fetch(url + "api/Notification")
+                .then(res => {
+                    if (res != undefined)
+                        return res.json();
+                    else 
+                        throw Error("No hay ninguna notificación");
+                })
+                .catch(err => {
                     $btnNotificaciones.style.display = "none";
-                }
+                    $numNotificaciones.style.display = "none";
+                })
+                .then(response => {
+                    let fragment = document.createDocumentFragment();
 
-                console.log("Número de notificaciones = " + numNotifications);
-                console.log("Notificaciones habilitadas");
-            });
-        }
-    });
+                    response.data.forEach(el => {
+                        numNotifications++;
+                        
+                        let $div = document.createElement("div");
+
+                        $div.classList.add("noti-container");
+
+                        $div.innerHTML = `
+                            <p>Notificacion</p>
+                            <p>${el.mensaje}</p>
+                        `;
+
+                        if (!el.notificado)
+                        {
+                            fetch(url + "api/Notification/" + el.idNotication, {
+                                method: "PUT"
+                            }).then(res => res.json()).then(json => console.log(json));
+
+                            let notification = new Notification(el.mensaje);
+                        }
+
+                        fragment.appendChild($div);
+                    });
+
+                    document.getElementById("noti-bar").appendChild(fragment);
+
+                    if (numNotifications > 0){
+                        $btnNotificaciones.style.display = "block";
+                        $numNotificaciones.innerText = "(" + numNotifications + ")";
+                    }
+                    else{
+                        $btnNotificaciones.style.display = "none";
+                    }
+
+                    console.log("Número de notificaciones = " + numNotifications);
+                    console.log("Notificaciones habilitadas");
+                });
+            }
+        });
+    }
+    
+    checkNotifications();
+
+    setInterval(checkNotifications, 600000);
 
     const seeNotiBar = () => {
         let $bar = document.getElementById("noti-bar");

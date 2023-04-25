@@ -32,7 +32,6 @@ public partial class AgendaUpcContext : DbContext
     public virtual DbSet<TareasUsuario> TareasUsuarios { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -148,6 +147,9 @@ public partial class AgendaUpcContext : DbContext
             entity.Property(e => e.Mensaje)
                 .HasMaxLength(150)
                 .HasColumnName("mensaje");
+            entity.Property(e => e.Notificado)
+                .HasColumnType("bit(1)")
+                .HasColumnName("notificado");
 
             entity.HasOne(d => d.IdUnicaNavigation).WithMany(p => p.Notificaciones)
                 .HasForeignKey(d => d.IdUnica)

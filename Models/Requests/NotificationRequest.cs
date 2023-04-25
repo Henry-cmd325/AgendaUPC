@@ -7,4 +7,6 @@ public class NotificationRequest
     public string Mensaje { get; set; } = null!;
 
     public DateTime FechaHora { get; set; }
+    public int IdUnica { get; set; }
+    public bool Notificado { get; set; }
 }

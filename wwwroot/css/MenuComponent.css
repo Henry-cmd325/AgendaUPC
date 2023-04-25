@@ -190,18 +190,21 @@ we're going to style the label instead */
 
 #noti-bar{
     position: absolute;
-    left: calc(100% - 300px);
+    left: calc(100% - 310px);
     background-color: #ededed;
     border: 1px solid #999999;
+    border-bottom-left-radius: 5px;
     overflow-x: hidden;
     overflow-y: scroll;
     height: 50%;
     z-index: 1;
+    box-shadow: -3.5px 2px 2px rgb(145, 145, 145);
 }
 
 .noti-container{
     border-bottom: 1px solid black;
     width: 300px;
     height: fit-content;
+    padding-left: 3px;
     overflow-wrap: break-word;
 }

@@ -15,5 +15,7 @@ public partial class Notificacione
 
     public int IdUnica { get; set; }
 
+    public ulong Notificado { get; set; }
+
     public virtual TareasUnica IdUnicaNavigation { get; set; } = null!;
 }
