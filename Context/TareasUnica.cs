@@ -22,4 +22,6 @@ public partial class TareasUnica
     public virtual Materia IdMateriaNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
+
+    public virtual ICollection<Notificacione> Notificaciones { get; } = new List<Notificacione>();
 }

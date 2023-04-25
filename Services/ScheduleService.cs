@@ -61,7 +61,7 @@ public class ScheduleService : IScheduleService
             return response;
         }
 
-        var listSchedules = _context.HorarioMaterias.ToList();
+        var listSchedules = _context.HorarioMaterias.Where(h => h.IdUsuario == idUsuario).ToList();
         response.Data = new();
 
         foreach(var schedule in listSchedules)

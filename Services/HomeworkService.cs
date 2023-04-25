@@ -27,6 +27,13 @@ public class HomeworkService : IHomeworkService
             return response;
         }
 
+        var dbNoti = _context.Notificaciones.Where(n => n.IdUnica == dbHomework.IdUnica).FirstOrDefault();
+        if (dbNoti != null)
+        {
+            _context.Notificaciones.Remove(dbNoti);
+            _context.SaveChanges();
+        }
+
         dbHomework.Terminada = 1;
 
         _context.Entry(dbHomework).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

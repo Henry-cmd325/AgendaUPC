@@ -14,6 +14,10 @@
     
 }
 
+body{
+    overflow-x: hidden;
+}
+
 /* Makes sure that everything is 100% height */
 /* gets the actual input out of the way; 
 we're going to style the label instead */
@@ -83,7 +87,7 @@ we're going to style the label instead */
     overflow-y: scroll;
     padding: 20px;
     -webkit-overflow-scrolling: touch;
-    z-index: 4;
+    z-index: 2;
 }
 
 /* actual page content pane */
@@ -110,6 +114,7 @@ we're going to style the label instead */
 #drawer-toggle:checked ~ #drawer-toggle-label,
 #drawer-toggle:checked ~ header {
     left: 300px;
+    z-index: 2;
 }
 
 #drawer-toggle:checked ~ #drawer {
@@ -161,3 +166,42 @@ we're going to style the label instead */
     }
 }
 
+#div-noti{
+    position: absolute;
+    top: 2.5%;
+    left: calc(100% - 300px);
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+}
+
+#btn-notification{
+    font-size: 15px;
+    margin-right: 2px;
+    color: #fff;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+#btn-notification:hover{
+    text-decoration: underline;
+}
+
+#noti-bar{
+    position: absolute;
+    left: calc(100% - 300px);
+    background-color: #ededed;
+    border: 1px solid #999999;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 50%;
+    z-index: 1;
+}
+
+.noti-container{
+    border-bottom: 1px solid black;
+    width: 300px;
+    height: fit-content;
+    overflow-wrap: break-word;
+}

@@ -12,21 +12,27 @@ public class HomeworkController : Controller
 {
     private readonly IHomeworkService _service;
     private readonly ISubjectService _subjects;
+    private readonly INotificationService _notifications;
     private readonly int _idUsuario;
 
-    public HomeworkController(IHomeworkService service, IHttpContextAccessor accessor, ISubjectService subjects)
+    public HomeworkController(IHomeworkService service, IHttpContextAccessor accessor, ISubjectService subjects, INotificationService notifications)
     {
         _service = service;
         _idUsuario = Convert.ToInt32(accessor.HttpContext!.Session.GetInt32("idUser"));
         _subjects = subjects;
+        _notifications = notifications;
     }
+
     public IActionResult Index(int id)
     {
+        _notifications.CheckNotifications(_idUsuario);
+
         var model = new DetailsHomework()
         {
             Homework = _service.GetAll(_idUsuario).Data!,
             Subjects = _subjects.GetAll(_idUsuario).Data!
         };
+
         return View("Views/Homework/Index.cshtml", model);
     }
 
@@ -69,7 +75,7 @@ public class HomeworkController : Controller
 
         TempData["Created"] = "La tarea fue creada exitosamente";
 
-        return RedirectToAction("Create");
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -95,6 +101,7 @@ public class HomeworkController : Controller
         if (!tareaUsuario.Success) return RedirectToAction("Index");
 
         var response = _service.CompletarTarea(id);
+        _notifications.CheckNotifications(_idUsuario);
 
         if (!response.Success)
         {
